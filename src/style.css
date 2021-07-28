@@ -1,0 +1,258 @@
+body[data-temp-range="cold"] {
+  --background: #bccccc;
+  --primary: #6685b6;
+  --secondary: #43495c;
+}
+
+body[data-temp-range="fair"] {
+  --background: #ffeac1;
+  --primary: #ff8d77;
+  --secondary: #a48c72;
+}
+
+body[data-temp-range="warm"] {
+  --background: #ffe483;
+  --primary: #ff4e50;
+  --secondary: #fc913a;
+}
+
+body[data-temp-range="hot"] {
+  --background: #ef7c7c;
+  --primary: #a30006;
+  --secondary: #6b0103;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+strong {
+  font-weight: 500;
+}
+
+.visually-hidden {
+  font-size: 0;
+}
+
+.row {
+  padding: 1rem 2rem 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 32px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "liga";
+}
+
+#weather {
+  font-family: "Rubik", sans-serif;
+  max-width: 37.5rem;
+  margin: 2rem auto;
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem 0;
+  box-shadow: 0 0 10px 0 var(--secondary);
+  font-weight: 300;
+  color: #767386;
+}
+
+h1 {
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+h2 {
+  font-size: 1.35rem;
+  color: var(--secondary);
+}
+
+a,
+input,
+button {
+  transition: all 0.3s ease;
+}
+
+a:hover,
+a:focus,
+button:hover,
+button:focus {
+  color: var(--secondary);
+}
+
+input:focus {
+  border: 0;
+  outline: 0;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  border-radius: 0.5rem;
+  background: #efefef;
+  padding: 0.25rem 1rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+form:focus-within {
+  box-shadow: 0 0 5px 0 var(--primary);
+}
+
+form input,
+form button {
+  border-radius: 0;
+  border: 0;
+}
+
+form input {
+  flex-grow: 1;
+  background: transparent;
+  min-height: 2.5rem;
+}
+
+form button {
+  background: transparent;
+  font-size: 1.25rem;
+  line-height: 0;
+  cursor: pointer;
+  padding: 0;
+  color: var(--primary);
+}
+
+form button .material-icons {
+  font-size: 2rem;
+}
+
+form button:hover {
+  color: var(--secondary);
+}
+
+#today {
+  display: flex;
+  flex-wrap: nowrap;
+  border-bottom: 1px solid #efefef;
+}
+
+.today-image-wrap {
+  overflow: hidden;
+  padding-right: 1rem;
+  margin-right: 1rem;
+  border: 1px solid #eee;
+  width: 4rem;
+  height: 4rem;
+}
+
+.today-image {
+  transform: scale(1.3) translateX(-0.25rem);
+}
+
+.today-time {
+  width: 100%;
+  flex-basis: 100%;
+  display: block;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 1rem;
+}
+
+.today-text {
+  width: 100%;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.today-temp {
+  width: 60%;
+  flex-basis: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 3rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.today-description {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.today-details {
+  width: auto;
+  margin-left: auto;
+}
+
+.today-details li {
+  margin-top: 0.5rem;
+}
+
+.today-details li:first-child {
+  margin-top: 0;
+}
+
+#forecast {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+}
+
+.forecast-item {
+  padding: 0 0.5rem;
+  text-align: center;
+}
+
+.forecast-item img {
+  width: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+.forecast-item-min,
+.forecast-item-max {
+  display: inline-block;
+  padding: 0.25rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.forecast-item-min strong,
+.forecast-item-max strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+.forecast-item-min strong {
+  color: var(--secondary);
+}
+
+.forecast-item-max strong {
+  color: var(--primary);
+}
