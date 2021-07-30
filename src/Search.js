@@ -3,7 +3,7 @@ import React from "react";
 export default function Search() {
   return (
     <form id="search-form">
-      <label for="search" className="visually-hidden">
+      <label htmlFor="search" className="visually-hidden">
         Search for a city
       </label>
       <input
