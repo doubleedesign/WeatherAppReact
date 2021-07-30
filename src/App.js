@@ -5,20 +5,21 @@ import Search from "./Search";
 import Title from "./Title";
 import Today from "./Today";
 import Forecast from "./Forecast";
+import React from "react";
 
 export default function App() {
   return (
     <main id="weather">
-      <section class="row">
+      <section className="row">
         <Search />
       </section>
-      <section class="row">
+      <section className="row">
         <Title city="New York" />
       </section>
-      <section class="row">
+      <section className="row">
         <Today />
       </section>
-      <section class="row">
+      <section className="row">-
         <Forecast />
       </section>
     </main>
