@@ -1,7 +1,9 @@
+import React from "react";
+
 export default function Search() {
   return (
     <form id="search-form">
-      <label for="search" class="visually-hidden">
+      <label for="search" className="visually-hidden">
         Search for a city
       </label>
       <input
@@ -11,8 +13,8 @@ export default function Search() {
         placeholder="Search for a city"
       />
       <button type="submit">
-        <span class="visually-hidden">Search</span>
-        <span class="material-icons">search</span>
+        <span className="visually-hidden">Search</span>
+        <span className="material-icons">search</span>
       </button>
     </form>
   );

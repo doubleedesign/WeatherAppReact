@@ -1,3 +1,7 @@
+import React from "react";
+
 export default function Time() {
-  return <span class="today-time">Wednesday 10:00am</span>;
+  return (
+      <span className="today-time">Wednesday 10:00am</span>
+  );
 }

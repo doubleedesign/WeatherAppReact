@@ -5,11 +5,11 @@ export default function Forecast() {
 		<React.Fragment>
 			<h2>This week</h2>
 			<div id="forecast">
-				<div class="forecast-item"></div>
-				<div class="forecast-item"></div>
-				<div class="forecast-item"></div>
-				<div class="forecast-item"></div>
-				<div class="forecast-item"></div>
+				<div className="forecast-item"></div>
+				<div className="forecast-item"></div>
+				<div className="forecast-item"></div>
+				<div className="forecast-item"></div>
+				<div className="forecast-item"></div>
 			</div>
 		</React.Fragment>
 	);
