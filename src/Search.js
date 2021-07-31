@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 
-export default function Search() {
+export default function Search(props) {
     let [city, setCity] = useState('');
 
     function handleSearch(event) {
         event.preventDefault();
+        props.parentCallback(city);
     }
 
     function updateCity(event) {
