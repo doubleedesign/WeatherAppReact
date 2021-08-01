@@ -155,15 +155,15 @@ form button:hover {
 
 .today-image-wrap {
   overflow: hidden;
-  padding-right: 1rem;
   margin-right: 1rem;
-  border: 1px solid #eee;
   width: 4rem;
   height: 4rem;
 }
 
 .today-image {
-  transform: scale(1.3) translateX(-0.25rem);
+  height: 100%;
+  width: 100%;
+  transform: scale(1.4);
 }
 
 .today-time {
