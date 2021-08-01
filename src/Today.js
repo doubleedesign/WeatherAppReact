@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useMemo, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import Time from "./Time";
 import Temperature from "./Temperature";
 import Details from "./Details";
@@ -46,6 +46,7 @@ export default function Today(props) {
 		if(weather) {
 			let data = {
 				city: weather.name,
+				coords: weather.coord,
 				temperature: Math.round(weather.main.temp)
 			}
 			props.onWeatherUpdate(data);

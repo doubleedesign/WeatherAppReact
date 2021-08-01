@@ -22,12 +22,16 @@ export default function App() {
 	 * The today component sends up some selected data from the weather query so it can be used by other components
 	 * Here we update the state variables used by those components when new data is received
 	 */
-	let [city, setCity] = useState();
+	let [city, setCity] = useState('');
+	let [coords, setCoords] = useState('');
 	let [tempRange, setTempRange] = useState('');
 	function onWeatherChange(data) {
 
 		// Display the returned city name rather than exactly what was searched
 		setCity(data.city);
+
+		// Set the coordinates of the city (used by the forecast)
+		setCoords(data.coords);
 
 		// Set the data-temp-range attribute for styling purposes
 		if(data.temperature <= 15) {
@@ -50,7 +54,7 @@ export default function App() {
 				<Search onSearch={onSearchChange} />
 				<Title city={city} />
 				<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
-				<Forecast city={searchTerm} />
+				<Forecast coords={coords} />
 			</main>
 		</div>
 	);

@@ -84,6 +84,8 @@ h1 {
 h2 {
   font-size: 1.35rem;
   color: var(--secondary);
+  padding-top: 1rem;
+  border-top: 1px solid #EEE;
 }
 
 a,
@@ -218,11 +220,22 @@ form button:hover {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-left: 0;
+  padding-right: 0;
+  width: auto;
+  border-top: 1px solid #EEE;
 }
 
 .forecast-item {
   padding: 0 0.5rem;
   text-align: center;
+}
+
+.forecast-item-day {
+  font-size: 0.8rem;
+  text-transform: uppercase;
 }
 
 .forecast-item img {
