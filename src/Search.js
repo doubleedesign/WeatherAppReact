@@ -5,7 +5,7 @@ export default function Search(props) {
 
     function handleSearch(event) {
         event.preventDefault();
-        props.parentCallback(city);
+        props.onSearch(city);
     }
 
     function updateCity(event) {

@@ -20,7 +20,7 @@ export default function App() {
 	 * The today component sends up some selected data from the weather query so it can be used by other components
 	 * Here we update the state variables used by those components when new data is received
 	 */
-	let [city, setCity] = useState('');
+	let [city, setCity] = useState();
 	let [tempRange, setTempRange] = useState('');
 	function onWeatherChange(data) {
 
@@ -45,9 +45,9 @@ export default function App() {
 	return (
 		<div className="wrapper" data-temp-range={tempRange}>
 			<main id="weather">
-				<Search parentCallback={onSearchChange} />
-				<Title city={city} parentCallback={onWeatherChange} />
-				<Today city={searchTerm} parentCallback={onWeatherChange} />
+				<Search onSearch={onSearchChange} />
+				<Title city={city} />
+				<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
 				<Forecast city={searchTerm} />
 			</main>
 		</div>

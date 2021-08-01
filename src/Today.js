@@ -23,7 +23,7 @@ export default function Today(props) {
 				/**
 				 * NOTES:
 				 * sending weather.main.temp up to the parent via
-				 * props.parentCallback(Math.round(weather.main.temp)) doesn't work here,
+				 * props.onWeatherUpdate(Math.round(weather.main.temp)) doesn't work here,
 				 * because the weather variable still contains the previous data even though it was just set...
 				 * Sending the response data directly works, e.g. response.data.weather.main.temp,
 				 * but I thought it was better to try to work out how to get it from the weather variable at the right time
@@ -48,7 +48,7 @@ export default function Today(props) {
 				city: weather.name,
 				temperature: Math.round(weather.main.temp)
 			}
-			props.parentCallback(data);
+			props.onWeatherUpdate(data);
 		}
 	}, [weather])
 
