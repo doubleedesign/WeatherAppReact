@@ -38,7 +38,7 @@ export default function Temperature(props) {
 	return (
 		<a className="today-temp" onClick={swapTemperature}>
 			<div className="today-image-wrap">
-				<img className="today-image" src="" alt=""/>
+				<img className="today-image" src={props.imageUrl} alt={props.imageAlt}/>
 			</div>
 			<span className="amount" data-temp-amount={temperature}>{temperature}&deg;</span>
 			<span className="units" data-temp-units={units}>{units}</span>
