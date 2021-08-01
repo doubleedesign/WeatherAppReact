@@ -6,7 +6,7 @@ import axios from "axios";
 
 export default function Today(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let [weather, setWeather] = useState(null);
+	let [weather, setWeather] = useState(null); // See Temperature.js for notes about using state
 
 	/**
 	 * Set and perform API query
@@ -52,9 +52,13 @@ export default function Today(props) {
 		}
 	}, [weather])
 
-	// Put output in a variable so it can be shown conditionally
-	// (in the component's return statement)
-	// Ref: https://stackoverflow.com/a/24534492
+	/**
+	 * Put output in a variable so it can be shown conditionally
+	 * (in the component's return statement)
+	 * Ref: https://stackoverflow.com/a/24534492
+	 * @returns {*}
+	 * @constructor
+	 */
 	let Output = () => (
 		<section id="today" className="row">
 			<div className="today-text">
@@ -72,7 +76,10 @@ export default function Today(props) {
 		</section>
 	)
 
-	// Render the component if weather is set
+	/**
+	 * Output - only shown when weather exists
+	 * Ref: https://stackoverflow.com/a/24534492
+	 */
 	return (
 		<Fragment>
 			{weather ? <Output/> : null}

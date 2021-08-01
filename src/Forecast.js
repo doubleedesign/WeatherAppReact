@@ -1,10 +1,15 @@
 import React, {Fragment} from 'react';
 
-// Output only shown when props.city exists
-// Ref: https://stackoverflow.com/a/24534492
 export default function Forecast(props) {
 
-	// Can't use Fragment here for some reason...?
+	/**
+	 * Put output in a variable so it can be shown conditionally
+	 * (in the component's return statement)
+	 * Ref: https://stackoverflow.com/a/24534492
+	 * Can't use Fragment here for some reason...?
+	 * @returns {*}
+	 * @constructor
+	 */
 	const Output = () => (
 		<section className="row">
 			<h2>This Week</h2>
@@ -18,6 +23,10 @@ export default function Forecast(props) {
 		</section>
 	)
 
+	/**
+	 * Output - only shown when props.city exists
+	 * Ref: https://stackoverflow.com/a/24534492
+	 */
 	return (
 		<Fragment>
 			{props.city ? <Output/> : null}

@@ -9,8 +9,10 @@ import React, {useState} from "react";
 
 export default function App() {
 
-	// When a city is searched for, set the state so child components can pick it up
-	// Ref: https://www.geeksforgeeks.org/how-to-pass-data-from-one-component-to-other-component-in-reactjs/
+	/**
+	 * When a city is searched for, set the state so child components can pick it up
+	 * Ref: https://www.geeksforgeeks.org/how-to-pass-data-from-one-component-to-other-component-in-reactjs/
+	 */
 	let [searchTerm, setSearchTerm] = useState('');
 	function onSearchChange(searchedCity) {
 		setSearchTerm(searchedCity);

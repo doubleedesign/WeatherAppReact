@@ -1,15 +1,20 @@
 import React, {useState} from "react";
 
 export default function Temperature(props) {
-	// STATE
-	// temperature is a variable, to which we assign the current temp from props.degrees
-	// setTemperature here creates a function which will receive the current temp here from props.degrees
+
+	/**
+	 * STATE
+	 * temperature is a variable, to which we assign the current temp from props.degrees
+	 * setTemperature here creates a function which will receive the current temp here from props.degrees
+	 * Likewise for the units (C/F)
+	 */
 	let [temperature, setTemperature] = useState(props.degrees);
-	// Likewise for the units
 	let [units, setUnits] = useState(props.units);
 
-	// EVENTS
-	// Function that is called when the link is clicked
+	/**
+	 * EVENTS
+	 * Function that is called when the link is clicked
+	 */
 	function swapTemperature() {
 		let unitsTo = 'C';
 		if (units === 'C') {
@@ -20,7 +25,13 @@ export default function Temperature(props) {
 		setUnits(unitsTo);
 	}
 
-	// Utility function to do the conversion itself
+	/**
+	 * Utility function to do the conversion itself
+	 * @param temp
+	 * @param unitsFrom
+	 * @param unitsTo
+	 * @returns {number}
+	 */
 	function convertTemperature(temp, unitsFrom, unitsTo) {
 		let newTemp = temp;
 

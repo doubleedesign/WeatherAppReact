@@ -5,11 +5,11 @@ export default function Search(props) {
 
     function handleSearch(event) {
         event.preventDefault();
-        props.onSearch(city);
+        props.onSearch(city); // sends city back to the parent component
     }
 
     function updateCity(event) {
-        setCity(event.target.value);
+        setCity(event.target.value); // Updates state variable when input changes
     }
 
 	return (
