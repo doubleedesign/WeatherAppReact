@@ -32,7 +32,7 @@ export default function Today(props) {
 		<section id="today" className="row">
 			<div className="today-text">
 				<Time/>
-				<Temperature degrees={weather.main.temp}
+				<Temperature degrees={Math.round(weather.main.temp)}
 							 units="C"
 							 imageUrl={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
 							 imageAlt={weather.weather[0].description}
