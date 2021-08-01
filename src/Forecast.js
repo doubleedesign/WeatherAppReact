@@ -6,7 +6,7 @@ export default function Forecast(props) {
 
 	// Can't use Fragment here for some reason...?
 	const Output = () => (
-		<div>
+		<section className="row">
 			<h2>This Week</h2>
 			<div id="forecast">
 				<div className="forecast-item"></div>
@@ -15,7 +15,7 @@ export default function Forecast(props) {
 				<div className="forecast-item"></div>
 				<div className="forecast-item"></div>
 			</div>
-		</div>
+		</section>
 	)
 
 	return (

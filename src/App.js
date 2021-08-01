@@ -18,18 +18,10 @@ export default function App() {
 
 	return (
 		<main id="weather">
-			<section className="row">
-				<Search parentCallback = {onCityChange}/>
-			</section>
-			<section className="row">
-				<Title city={city}/>
-			</section>
-			<section className="row">
-				<Today city={city}/>
-			</section>
-			<section className="row">
-				<Forecast city={city}/>
-			</section>
+			<Search parentCallback = {onCityChange}/>
+			<Title city={city}/>
+			<Today city={city}/>
+			<Forecast city={city}/>
 		</main>
 	);
 }

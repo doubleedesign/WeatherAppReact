@@ -29,7 +29,7 @@ export default function Today(props) {
 	// (in the component's return statement)
 	// Ref: https://stackoverflow.com/a/24534492
 	let Output = () => (
-		<div id="today">
+		<section id="today" className="row">
 			<div className="today-text">
 				<Time/>
 				<Temperature degrees={weather.main.temp}
@@ -42,7 +42,7 @@ export default function Today(props) {
 						 wind={weather.wind.speed}
 				/>
 			</div>
-		</div>
+		</section>
 	)
 
 	// Render the component if weather is set

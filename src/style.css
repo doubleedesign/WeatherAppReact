@@ -151,7 +151,6 @@ form button:hover {
 #today {
   display: flex;
   flex-wrap: nowrap;
-  border-bottom: 1px solid #efefef;
 }
 
 .today-image-wrap {
@@ -219,8 +218,6 @@ form button:hover {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
 }
 
 .forecast-item {

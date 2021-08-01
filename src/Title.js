@@ -5,7 +5,7 @@ import React, {Fragment} from "react";
 export default function Title(props) {
 
 	const Output = () => (
-		<h1>
+		<h1 className="row">
 			Today in <strong id="city-name">{props.city}</strong>
 		</h1>
 	)
