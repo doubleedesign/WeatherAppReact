@@ -1,31 +1,31 @@
-body[data-temp-range="cold"] {
+.wrapper[data-temp-range="cold"] {
   --background: #bccccc;
   --primary: #6685b6;
   --secondary: #43495c;
 }
 
-body[data-temp-range="fair"] {
+.wrapper[data-temp-range="fair"] {
   --background: #ffeac1;
   --primary: #ff8d77;
   --secondary: #a48c72;
 }
 
-body[data-temp-range="warm"] {
+.wrapper[data-temp-range="warm"] {
   --background: #ffe483;
   --primary: #ff4e50;
   --secondary: #fc913a;
 }
 
-body[data-temp-range="hot"] {
+.wrapper[data-temp-range="hot"] {
   --background: #ef7c7c;
   --primary: #a30006;
   --secondary: #6b0103;
 }
 
-body {
+.wrapper {
   height: 100vh;
   margin: 0;
-  padding: 0;
+  padding: 2rem 0;
   background-color: var(--background);
   background-size: cover;
   background-position: center center;
@@ -67,7 +67,7 @@ strong {
 #weather {
   font-family: "Rubik", sans-serif;
   max-width: 37.5rem;
-  margin: 2rem auto;
+  margin: 1rem auto;
   background: white;
   border-radius: 1rem;
   padding: 1rem 0;
