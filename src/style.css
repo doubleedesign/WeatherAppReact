@@ -24,12 +24,16 @@
 
 .wrapper {
   height: 100vh;
+  box-sizing: border-box;
   margin: 0;
   padding: 2rem 0;
   background-color: var(--background);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 strong {
