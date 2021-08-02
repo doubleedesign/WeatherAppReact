@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState, useRef} from 'react';
 import axios from "axios";
 
 export default function Forecast(props) {
@@ -6,12 +6,36 @@ export default function Forecast(props) {
 	let [forecast, setForecast] = useState(null); // See Temperature.js for notes about using state
 
 	/**
-	 * Set and perform API query
-	 * Note: Forecast query requires coordinates
-	 * This is done inside useEffect so it only re-runs if certain values have changed (in this case, props.coords)
-	 * otherwise it runs in an infinite loop and we have a bad time
+	 * Create and use useDidMountEffect hook with useRef
+	 * for useEffect stuff that we do not want to run on first render
+	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
+	 * @param func
+	 * @param deps
 	 */
-	useEffect(() => {
+	const useDidMountEffect = (func, deps) => {
+		const didMount = useRef(false);
+
+		/**
+		 * Update the forecast when the city changes
+		 * This is done inside useEffect so it only re-runs if certain values have changed (in this case, props.coords)
+		 */
+		useEffect(() => {
+			if (didMount.current) {
+				getForecastForCity(props.coords)
+			} else {
+				didMount.current = true;
+			}
+		}, [props.coords]);
+	}
+	useDidMountEffect();
+
+	/**
+	 * Set and perform API query to get the forecast for a given city
+	 * and save it in the state variable
+	 * Note: Forecast query requires coordinates, not city name
+	 * @param coords
+	 */
+	function getForecastForCity(coords) {
 		let query = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coords.lat}&lon=${props.coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
 
 		axios.get(query)
@@ -52,7 +76,7 @@ export default function Forecast(props) {
 			}).catch(error => {
 				console.log(error);
 			})
-	}, [props.coords]);
+	}
 
 	/**
 	 * Utility function to convert the day number to its 3-letter abbreviation
