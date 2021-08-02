@@ -126,7 +126,7 @@ export default function Forecast(props) {
 		return <section id="forecast" className="row">
 			{ /** Loop through the forecast items and add each one to the page */}
 			{Object.keys(forecast).map(day => (
-				<div className="forecast-item">
+				<div className="forecast-item" key={day}>
 					<span className="forecast-item-day">{day}</span>
 					<img src={forecast[day].imageUrl} alt=""/>
 					<span className="forecast-item-min">Low<strong>{forecast[day].min}&deg;</strong></span>
