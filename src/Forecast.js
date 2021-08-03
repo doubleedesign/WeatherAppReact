@@ -21,7 +21,7 @@ export default function Forecast(props) {
 		 */
 		useEffect(() => {
 			if (didMount.current) {
-				getForecastForCity(props.coords)
+				getForecastForCity(props.coords);
 			} else {
 				didMount.current = true;
 			}
@@ -45,7 +45,7 @@ export default function Forecast(props) {
 
 				// Slice the returned data down to only the first five days
 				let fullData = response.data.daily;
-				fullData = fullData.slice(0, 5);
+				fullData = fullData.slice(1, 6);
 
 				// Loop through the returned data and put just what we want into an object
 				let summaryData = {};

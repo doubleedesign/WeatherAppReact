@@ -251,17 +251,22 @@ form button:hover {
 .forecast-item {
   padding: 0 0.5rem;
   text-align: center;
+  position: relative;
 }
 
 .forecast-item-day {
   font-size: 0.8rem;
   text-transform: uppercase;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .forecast-item img {
   width: 80px;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto -0.75rem;
 }
 
 .forecast-item-min,
