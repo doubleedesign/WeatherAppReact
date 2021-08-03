@@ -8,6 +8,7 @@ import Today from "./Today";
 import Forecast from "./Forecast";
 import axios from "axios";
 import CryptoJS from "crypto-js";
+import Time from "./Time";
 
 export default function App() {
 	let [searchTerm, setSearchTerm] = useState('');
@@ -139,6 +140,7 @@ export default function App() {
 			<main id="weather">
 				<Search onSearch={onSearchChange} />
 				<Title city={city} />
+				<Time coords={coords}/>
 				<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
 				<Forecast coords={coords} />
 			</main>

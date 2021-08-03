@@ -50,7 +50,8 @@ strong {
   width: 100%;
 }
 
-.material-icons {
+.material-icons,
+.material-icons-outlined {
   font-family: "Material Icons";
   font-weight: normal;
   font-style: normal;
@@ -157,6 +158,7 @@ form button:hover {
 #today {
   display: flex;
   flex-wrap: nowrap;
+  padding-top: 0;
 }
 
 .today-image-wrap {
@@ -172,17 +174,31 @@ form button:hover {
   transform: scale(1.4);
 }
 
-.today-time {
-  width: 100%;
-  flex-basis: 100%;
-  display: block;
+#time {
   padding-bottom: 1rem;
-  border-bottom: 1px solid #efefef;
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.today-time {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.today-time .material-icons-outlined {
+  margin-right: 0.5rem;
+}
+
+.today-timezone {
+  font-size: 0.8rem;
 }
 
 .today-text {
   width: 100%;
+  border-top: 1px solid #EEE;
+  padding-top: 1rem;
   padding-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;

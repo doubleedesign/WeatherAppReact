@@ -88,7 +88,6 @@ export default function Today(props) {
 	let Output = () => (
 		<section id="today" className="row">
 			<div className="today-text">
-				<Time/>
 				<Temperature degrees={Math.round(weather.main.temp)}
 							 units="C"
 							 imageUrl={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
