@@ -73,9 +73,9 @@ export default function Today(props) {
 				 * but I thought it was better to try to work out how to get it from the weather variable at the right time
 				 **/
 			}).catch(error => {
-			console.log(error);
-			alert('Sorry, couldn\'t find that city. Please try again');
-		})
+				console.log(error);
+				alert('Sorry, couldn\'t find that city. Please try again');
+			})
 	}
 
 	/**
