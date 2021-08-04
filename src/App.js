@@ -1,4 +1,3 @@
-import "./reset.css";
 import "./_variables.scss";
 import "./_utilities.scss";
 import "./_App.scss";
