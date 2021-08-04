@@ -9,10 +9,12 @@ import Forecast from "./Forecast";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import Time from "./Time";
+import News from "./News";
 
 export default function App() {
 	let [searchTerm, setSearchTerm] = useState('');
 	let [city, setCity] = useState('');
+	let [country, setCountry] = useState('');
 	let [coords, setCoords] = useState('');
 	let [tempRange, setTempRange] = useState('');
 	let [backgroundImage, setBackgroundImage] = useState('');
@@ -33,6 +35,9 @@ export default function App() {
 
 		// Display the returned city name rather than exactly what was searched
 		setCity(data.city);
+
+		// Get the returned country code from the search
+		setCountry(data.country);
 
 		// Set the coordinates of the city (used by the forecast)
 		setCoords(data.coords);
@@ -137,12 +142,19 @@ export default function App() {
 
 	return (
 		<div className="wrapper" data-temp-range={tempRange} style={{backgroundImage:`url(${backgroundImage})`}}>
-			<main id="weather">
-				<Search onSearch={onSearchChange} />
-				<Title city={city} />
-				<Time coords={coords}/>
-				<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
-				<Forecast coords={coords} />
+			<main id="app">
+				<div className="app-top">
+					<Search onSearch={onSearchChange} />
+				</div>
+				<div className="app-main">
+					<Title city={city} />
+					<Time coords={coords}/>
+					<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
+					<Forecast coords={coords} />
+				</div>
+				<div className="app-side">
+					<News country={country} city={city}/>
+				</div>
 			</main>
 		</div>
 	);
