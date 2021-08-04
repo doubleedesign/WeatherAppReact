@@ -5,7 +5,7 @@ import Details from "./Details";
 import axios from "axios";
 
 export default function Today(props) {
-	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
+	const apiKey = '';
 	let [weather, setWeather] = useState(null); // See Temperature.js for notes about using state
 
 	/**
