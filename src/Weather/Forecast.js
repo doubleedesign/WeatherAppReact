@@ -1,6 +1,8 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react';
 import axios from "axios";
 
+import "./_Forecast.scss";
+
 export default function Forecast(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
 	let [forecast, setForecast] = useState(null); // See Temperature.js for notes about using state
@@ -123,14 +125,14 @@ export default function Forecast(props) {
 	 * @constructor
 	 */
 	const Output = () => {
-		return <section id="forecast" className="row">
+		return <section className="forecast row">
 			{ /** Loop through the forecast items and add each one to the page */}
 			{Object.keys(forecast).map(day => (
-				<div className="forecast-item" key={day}>
-					<span className="forecast-item-day">{day}</span>
-					<img src={forecast[day].imageUrl} alt=""/>
-					<span className="forecast-item-min">Low<strong>{forecast[day].min}&deg;</strong></span>
-					<span className="forecast-item-max">High<strong>{forecast[day].max}&deg;</strong></span>
+				<div className="forecast__item" key={day}>
+					<span className="forecast__item__day">{day}</span>
+					<img className="forecast__item__image" src={forecast[day].imageUrl} alt=""/>
+					<span className="forecast__item__min">Low<strong>{forecast[day].min}&deg;</strong></span>
+					<span className="forecast__item__max">High<strong>{forecast[day].max}&deg;</strong></span>
 				</div>
 			))}
 		</section>;

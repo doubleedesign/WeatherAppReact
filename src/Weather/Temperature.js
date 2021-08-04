@@ -1,5 +1,7 @@
 import React, {useState} from "react";
 
+import "./_Temperature.scss";
+
 export default function Temperature(props) {
 
 	/**
@@ -47,12 +49,12 @@ export default function Temperature(props) {
 	}
 
 	return (
-		<a className="today-temp" onClick={swapTemperature}>
-			<div className="today-image-wrap">
-				<img className="today-image" src={props.imageUrl} alt={props.imageAlt}/>
+		<a className="temperature" onClick={swapTemperature}>
+			<div className="temperature__image-wrap">
+				<img className="temperature__image-wrap__image" src={props.imageUrl} alt={props.imageAlt}/>
 			</div>
-			<span className="amount" data-temp-amount={temperature}>{temperature}&deg;</span>
-			<span className="units" data-temp-units={units}>{units}</span>
+			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
+			<span className="temperature__units" data-temp-units={units}>{units}</span>
 		</a>
 	);
 }

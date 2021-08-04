@@ -1,0 +1,18 @@
+@import '../variables';
+@import '../utilities';
+
+.today {
+	display: flex;
+	flex-wrap: nowrap;
+	padding-top: 0;
+
+	&__text {
+		border-top: 1px solid $border-color;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+}

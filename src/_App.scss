@@ -1,0 +1,143 @@
+@import 'variables';
+@import 'utilities';
+
+[data-temp-range="cold"] {
+	--background: #bccccc;
+	--primary: #6685b6;
+	--secondary: #43495c;
+}
+
+[data-temp-range="fair"] {
+	--background: #ffeac1;
+	--primary: #ff8d77;
+	--secondary: #a48c72;
+}
+
+[data-temp-range="warm"] {
+	--background: #ffe483;
+	--primary: #ff4e50;
+	--secondary: #9b680a;
+}
+
+[data-temp-range="hot"] {
+	--background: #ef7c7c;
+	--primary: #a30006;
+	--secondary: #6b0103;
+}
+
+.wrapper {
+	height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 2rem 1rem;
+	background-color: var(--background);
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow-x: hidden;
+}
+
+strong {
+	font-weight: 500;
+}
+
+a,
+input,
+button {
+	transition: all 0.3s ease;
+}
+
+a:hover,
+a:focus,
+button:hover,
+button:focus {
+	color: var(--secondary);
+}
+
+.visually-hidden {
+	font-size: 0;
+}
+
+.row {
+	padding: 0.5rem 1rem 0;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.material-icons,
+.material-icons-outlined {
+	font-family: "Material Icons";
+	font-weight: normal;
+	font-style: normal;
+	font-size: 32px;
+	display: inline-block;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	word-wrap: normal;
+	white-space: nowrap;
+	direction: ltr;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	-moz-osx-font-smoothing: grayscale;
+	font-feature-settings: "liga";
+}
+
+.app {
+	font-family: "Rubik", sans-serif;
+	margin: 1rem 2rem;
+	background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(232,232,232,1) 100%);
+	padding: 1rem 0.5rem;
+	box-shadow: 0 0 10px 0 var(--secondary);
+	font-weight: 300;
+	color: #767386;
+	min-width: 320px;
+	width: 100%;
+	max-width: 800px;
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+
+	&__top {
+
+		@include breakpoint(lg) {
+			width: 100%;
+			flex-basis: 100%;
+		}
+	}
+
+	&__main {
+
+		@include breakpoint(lg) {
+			width: 65%;
+			flex-basis: 65%;
+			padding-right: 1rem;
+			box-sizing: border-box;
+			display: flex;
+			flex-wrap: wrap;
+			flex-direction: column;
+		}
+	}
+
+	&__side {
+		border-top: 1px solid #e1e1e1;
+		padding-top: 1rem;
+		margin: 1rem;
+
+		@include breakpoint(lg) {
+			width: 35%;
+			flex-basis: 35%;
+			border-left: 1px solid #e1e1e1;
+			padding-left: 0.5rem;
+			padding-right: 1rem;
+			box-sizing: border-box;
+			padding-top: 0;
+			border-top: 0;
+			margin: 0;
+		}
+	}
+}

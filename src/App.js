@@ -1,15 +1,17 @@
 import "./reset.css";
-import "./style.css";
+import "./_variables.scss";
+import "./_utilities.scss";
+import "./_App.scss";
 
 import React, {useEffect, useState, useRef} from "react";
-import Search from "./Search";
-import Title from "./Title";
-import Today from "./Today";
-import Forecast from "./Forecast";
+import Search from "./Search/Search";
+import Title from "./Title/Title";
+import Today from "./Weather/Today";
+import Forecast from "./Weather/Forecast";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import Time from "./Time";
-import News from "./News";
+import DateTime from "./DateTime/DateTime";
+import News from "./News/News";
 
 export default function App() {
 	let [searchTerm, setSearchTerm] = useState('');
@@ -142,17 +144,17 @@ export default function App() {
 
 	return (
 		<div className="wrapper" data-temp-range={tempRange} style={{backgroundImage:`url(${backgroundImage})`}}>
-			<main id="app">
-				<div className="app-top">
+			<main className="app">
+				<div className="app__top">
 					<Search onSearch={onSearchChange} />
 				</div>
-				<div className="app-main">
+				<div className="app__main">
 					<Title city={city} />
-					<Time coords={coords}/>
+					<DateTime coords={coords}/>
 					<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
 					<Forecast coords={coords} />
 				</div>
-				<div className="app-side">
+				<div className="app__side">
 					<News country={country} city={city}/>
 				</div>
 			</main>

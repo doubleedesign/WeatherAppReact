@@ -1,7 +1,9 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
 import axios from "axios";
 
-export default function Time(props) {
+import "./_DateTime.scss";
+
+export default function DateTime(props) {
 	let [timeData, setTimeData] = useState(null);
 
 	/**
@@ -69,12 +71,12 @@ export default function Time(props) {
 	 * @constructor
 	 */
 	let Output = () => (
-		<section id="time" className="row">
-			<span className="today-time">
+		<section className="datetime row">
+			<span className="datetime__time">
 				<span className="material-icons-outlined">alarm</span>
 				{timeData.day} {timeData.hours}:{timeData.minutes} {timeData.meridiem}
 			</span>
-			<span className="today-timezone">
+			<span className="datetime__zone">
 				{timeData.zoneName} (GMT{timeData.zoneUTC})
 			</span>
 		</section>

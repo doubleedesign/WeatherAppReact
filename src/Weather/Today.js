@@ -1,8 +1,10 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
-import Time from "./Time";
+import DateTime from "../DateTime/DateTime";
 import Temperature from "./Temperature";
 import Details from "./Details";
 import axios from "axios";
+
+import "./_Today.scss";
 
 export default function Today(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
@@ -87,8 +89,8 @@ export default function Today(props) {
 	 * @constructor
 	 */
 	let Output = () => (
-		<section id="today" className="row">
-			<div className="today-text">
+		<section className="today row">
+			<div className="today__text">
 				<Temperature degrees={Math.round(weather.main.temp)}
 							 units="C"
 							 imageUrl={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}

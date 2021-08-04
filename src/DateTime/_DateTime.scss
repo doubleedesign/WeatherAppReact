@@ -1,0 +1,23 @@
+@import '../variables';
+@import '../utilities';
+
+.datetime {
+	padding-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	&__time {
+		display: flex;
+		align-items: center;
+		justify-content: flex-start;
+
+		.material-icons-outlined {
+			margin-right: 0.5rem;
+		}
+	}
+
+	&__zone {
+		font-size: 0.8rem;
+	}
+}

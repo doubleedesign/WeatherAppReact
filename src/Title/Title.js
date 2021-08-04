@@ -1,5 +1,7 @@
 import React, {Fragment} from "react";
 
+import "./_Title.scss";
+
 // Title output only shown when props.city exists
 // Ref: https://stackoverflow.com/a/24534492
 export default function Title(props) {
@@ -12,7 +14,7 @@ export default function Title(props) {
 	 * @constructor
 	 */
 	const Output = () => (
-		<h1 className="row">
+		<h1 className="title row">
 			Today in <strong id="city-name">{props.city}</strong>
 		</h1>
 	)

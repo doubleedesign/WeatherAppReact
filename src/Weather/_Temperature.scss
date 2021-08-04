@@ -1,0 +1,33 @@
+@import '../variables';
+@import '../utilities';
+
+.temperature {
+	width: 60%;
+	flex-basis: 60%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	font-size: 3rem;
+	font-weight: 500;
+	cursor: pointer;
+	color: var(--primary);
+
+	&__image-wrap {
+		overflow: hidden;
+		margin-right: 1rem;
+		width: 4rem;
+		height: 4rem;
+
+		&__image {
+			height: 100%;
+			width: 100%;
+			transform: scale(1.4);
+		}
+	}
+
+	&__amount {
+	}
+
+	&__units {
+	}
+}
