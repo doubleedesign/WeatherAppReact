@@ -1,7 +1,5 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
 import axios from "axios";
-import Temperature from "./Temperature";
-import Details from "./Details";
 
 export default function Time(props) {
 	let [timeData, setTimeData] = useState(null);
@@ -44,7 +42,7 @@ export default function Time(props) {
 				let splitTime = (timeObject.time_12).split(/[: ]/);
 				let utc = `+${timeObject.timezone_offset}`;
 				if(timeObject.timezone_offset < 0) {
-					utc = timeObject.timezone_offset;
+			 		utc = timeObject.timezone_offset;
 				}
 				let timeDataProcessed = {
 					day: (timeObject.date_time_txt).split(',')[0],
