@@ -39,9 +39,8 @@ export default function Time(props) {
 			.then(response => {
 				// This API returns a plain string not a JSON object, so we shall parse it to make it one
 				let timeObject = JSON.parse(response.request.response);
-				// Update the state
-				console.log(timeObject);
-				// Do some processing and save the processed data to the state
+
+				// Do some processing
 				let splitTime = (timeObject.time_12).split(/[: ]/);
 				let utc = `+${timeObject.timezone_offset}`;
 				if(timeObject.timezone_offset < 0) {
@@ -55,7 +54,10 @@ export default function Time(props) {
 					zoneName: (timeObject.timezone).replace('_', ' '),
 					zoneUTC: utc
 				}
+
+				// Save the processed data to the state
 				setTimeData(timeDataProcessed);
+
 			}).catch(error => {
 				console.log(error);
 			})
