@@ -79,7 +79,7 @@ export default function News(props) {
 	)
 
 	/**
-	 * Output - only shown when time data exists
+	 * Output
 	 * Ref: https://stackoverflow.com/a/24534492
 	 */
 	return (
