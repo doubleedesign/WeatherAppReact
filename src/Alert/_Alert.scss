@@ -1,0 +1,10 @@
+.alert {
+	padding: 0.5rem;
+	font-size: 0.8rem;
+
+	&--error {
+		border-color: #a30006;
+		color: #a30006;
+		background: rgba(#a30006, 0.1);
+	}
+}

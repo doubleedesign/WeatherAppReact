@@ -1,8 +1,10 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
 import axios from "axios";
 import Article from "./Article"
+import Alert from "../Alert/Alert"
 
 export default function News(props) {
+	const didMount = useRef(false);
 	let [news, setNews] = useState(null);
 
 	/**
@@ -13,8 +15,7 @@ export default function News(props) {
 	 * @param deps
 	 */
 	const useDidMountEffect = (func, deps) => {
-		const didMount = useRef(false);
-
+		
 		useEffect(() => {
 			if (didMount.current) {
 				getNewsForCity(props.city, props.country);
@@ -46,6 +47,7 @@ export default function News(props) {
 				setNews(filteredArticles.slice(0,3));
 			}).catch(error => {
 				console.log(error);
+				setNews(null);
 			})
 	}
 
@@ -85,6 +87,7 @@ export default function News(props) {
 	return (
 		<Fragment>
 			{news ? <Output/> : null}
+			{!news && didMount.current ? <Alert type="error" message="There was a problem fetching news."/> : null}
 		</Fragment>
 	)
 }
