@@ -4,6 +4,11 @@
 .details {
 	width: auto;
 	margin-left: auto;
+	text-align: center;
+
+	@include breakpoint(md) {
+		text-align: left;
+	}
 
 	&__item {
 		margin-top: 0.5rem;

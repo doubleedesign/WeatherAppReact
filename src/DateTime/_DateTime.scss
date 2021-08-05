@@ -3,17 +3,40 @@
 
 .datetime {
 	padding-bottom: 1rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
 
-	&__time {
+	@include breakpoint(md) {
 		display: flex;
 		align-items: center;
-		justify-content: flex-start;
+		justify-content: space-between;
+	}
+
+	&__time,
+	&__zone {
+		display: block;
+		text-align: center;
+
+		@include breakpoint(md) {
+			display: inline-block;
+		}
+	}
+
+	&__time {
+		margin-bottom: 0.5rem;
+
+		@include breakpoint(md) {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			margin-bottom: 0;
+		}
 
 		.material-icons-outlined {
-			margin-right: 0.5rem;
+			display: block;
+
+			@include breakpoint(md) {
+				display: inline-block;
+				margin-right: 0.5rem;
+			}
 		}
 	}
 
