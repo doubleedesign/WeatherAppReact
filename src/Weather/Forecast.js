@@ -6,6 +6,7 @@ import "./_Forecast.scss";
 export default function Forecast(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
 	let [forecast, setForecast] = useState(null); // See Temperature.js for notes about using state
+	let [units, setUnits] = useState('C');
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
@@ -24,10 +25,11 @@ export default function Forecast(props) {
 		useEffect(() => {
 			if (didMount.current) {
 				getForecastForCity(props.coords);
+				setUnits(props.units)
 			} else {
 				didMount.current = true;
 			}
-		}, [props.coords]);
+		}, [props.coords, props.units]);
 	}
 	useDidMountEffect();
 
@@ -136,7 +138,7 @@ export default function Forecast(props) {
 						<Temperature
 							degrees={forecast[day].min}
 							size="small"
-							units="C"
+							units={units}
 							showUnits={false}
 						/>
 					</span>
@@ -145,7 +147,7 @@ export default function Forecast(props) {
 						<Temperature
 							degrees={forecast[day].max}
 							size="small"
-							units="C"
+							units={units}
 							showUnits={false}
 							clickable={false}
 						/>

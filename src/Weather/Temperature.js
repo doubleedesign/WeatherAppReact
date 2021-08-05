@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 
 import "./_Temperature.scss";
 
@@ -25,6 +25,9 @@ export default function Temperature(props) {
 		let newTemp = convertTemperature(temperature, units, unitsTo);
 		setTemperature(newTemp);
 		setUnits(unitsTo);
+
+		// Send the new unit setting up to the parent component
+		props.onUnitUpdate(unitsTo, newTemp);
 	}
 
 	/**
@@ -41,13 +44,16 @@ export default function Temperature(props) {
 			newTemp = Math.round((temp * 1.8) + 32);
 		} else if (unitsFrom === 'F' && unitsTo === 'C') {
 			newTemp = Math.round((temp - 32) * 0.5556);
-		} else {
-			// Nothing to swap
 		}
 
 		return newTemp;
 	}
 
+	/**
+	 * Output when clickable = true
+	 * @returns {*}
+	 * @constructor
+	 */
 	let LinkOutput = () => (
 		<a className={`temperature temperature--${props.size}`} onClick={swapTemperature}>
 			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
@@ -57,6 +63,11 @@ export default function Temperature(props) {
 		</a>
 	)
 
+	/**
+	 * Output when clickable = false
+	 * @returns {*}
+	 * @constructor
+	 */
 	let SpanOutput = () => (
 		<span className={`temperature temperature--${props.size}`}>
 			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
@@ -71,5 +82,4 @@ export default function Temperature(props) {
 			{props.clickable ? <LinkOutput/> : <SpanOutput/>}
 		</Fragment>
 	)
-
 }

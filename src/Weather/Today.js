@@ -10,6 +10,12 @@ export default function Today(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
 	let [weather, setWeather] = useState(null); // See Temperature.js for notes about using state
 
+	// Temperature needs to be stored separately because it can be changed
+	// (Temperature component has a C/F conversion option which breaks without this
+	// unless we weren't going to send the unit change between the various components)
+	let [temperature, setTemperature] = useState(null);
+	let [units, setUnits] = useState(props.units);
+
 	/**
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
@@ -36,7 +42,7 @@ export default function Today(props) {
 	useDidMountEffect();
 
 	/**
-	 * Second useEffect hook to send the temperature and returned city name up to the parent component after the weather state variable updates.
+	 * Second useEffect hook to send the temperature, units, and returned city name up to the parent component after the weather state variable updates.
 	 * Can't do this in the same useEffect as the query because the weather variable still contains the previous data then.
 	 *
 	 * Why send the returned city name given the user just typed the city in, you ask?
@@ -49,11 +55,25 @@ export default function Today(props) {
 				city: weather.name,
 				country: weather.sys.country,
 				coords: weather.coord,
-				temperature: Math.round(weather.main.temp)
+				temperature: Math.round(weather.main.temp),
+				units: units
 			}
 			props.onWeatherUpdate(data);
 		}
 	}, [weather])
+
+	/**
+	 * What to do when the temperature component sends data up using the onUnitUpdate prop
+	 * @param unitsTo
+	 */
+	function switchUnits(unitsTo, newTemp) {
+		// Update the state in this component
+		setUnits(unitsTo);
+		setTemperature(newTemp);
+
+		// Send the units it returns up to the parent component
+		props.onUnitUpdate(unitsTo);
+	}
 
 	/**
 	 * Set and perform API query to get the weather for a given city
@@ -67,6 +87,7 @@ export default function Today(props) {
 			// Catch and log error if there is one
 			.then(response => {
 				setWeather(response.data);
+				setTemperature(Math.round(response.data.main.temp));
 				/**
 				 * NOTES:
 				 * sending weather.main.temp up to the parent via
@@ -97,11 +118,12 @@ export default function Today(props) {
 							 alt={weather.weather[0].description}/>
 					</div>
 					<Temperature
-						degrees={Math.round(weather.main.temp)}
 						size="large"
-						units="C"
+						degrees={temperature}
+						units={units}
 						showUnits={true}
 						clickable={true}
+						onUnitUpdate={switchUnits}
 					/>
 				</div>
 				<Details description={weather.weather[0].description}

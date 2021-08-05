@@ -18,6 +18,7 @@ export default function App() {
 	let [country, setCountry] = useState('');
 	let [coords, setCoords] = useState('');
 	let [tempRange, setTempRange] = useState('');
+	let [tempUnits, setTempUnits] = useState('C');
 	let [backgroundImage, setBackgroundImage] = useState('');
 
 	/**
@@ -31,6 +32,7 @@ export default function App() {
 	/**
 	 * The today component sends up some selected data from the weather query so it can be used by other components
 	 * Here we update the state variables used by those components when new data is received
+	 * @param data
 	 */
 	function onWeatherChange(data) {
 
@@ -56,6 +58,15 @@ export default function App() {
 		else {
 			setTempRange('hot');
 		}
+	}
+
+	/**
+	 * The Today component sends up the temperature unit setting when it changes so it can be used by other components
+	 * Here we update the state variables used by those components when new data is received
+	 * @param units
+	 */
+	function onUnitChange(units) {
+		setTempUnits(units);
 	}
 
 	/**
@@ -150,8 +161,8 @@ export default function App() {
 				<div className="app__main">
 					<Title city={city} />
 					<DateTime coords={coords}/>
-					<Today city={searchTerm} onWeatherUpdate={onWeatherChange} />
-					<Forecast coords={coords} />
+					<Today city={searchTerm} units={tempUnits} onWeatherUpdate={onWeatherChange} onUnitUpdate={onUnitChange} />
+					<Forecast coords={coords} units={tempUnits} />
 				</div>
 				<div className="app__side">
 					<News country={country} city={city}/>
