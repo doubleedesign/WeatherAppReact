@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 
 import "./_Temperature.scss";
 
@@ -48,13 +48,28 @@ export default function Temperature(props) {
 		return newTemp;
 	}
 
-	return (
-		<a className="temperature" onClick={swapTemperature}>
-			<div className="temperature__image-wrap">
-				<img className="temperature__image-wrap__image" src={props.imageUrl} alt={props.imageAlt}/>
-			</div>
+	let LinkOutput = () => (
+		<a className={`temperature temperature--${props.size}`} onClick={swapTemperature}>
 			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
-			<span className="temperature__units" data-temp-units={units}>{units}</span>
+			{props.showUnits === true &&
+				<span className="temperature__units" data-temp-units={units}>{units}</span>
+			}
 		</a>
-	);
+	)
+
+	let SpanOutput = () => (
+		<span className={`temperature temperature--${props.size}`}>
+			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
+			{props.showUnits === true &&
+			<span className="temperature__units" data-temp-units={units}>{units}</span>
+			}
+		</span>
+	)
+
+	return (
+		<Fragment>
+			{props.clickable ? <LinkOutput/> : <SpanOutput/>}
+		</Fragment>
+	)
+
 }

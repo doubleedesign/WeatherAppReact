@@ -91,11 +91,19 @@ export default function Today(props) {
 	let Output = () => (
 		<section className="today row">
 			<div className="today__text">
-				<Temperature degrees={Math.round(weather.main.temp)}
-							 units="C"
-							 imageUrl={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-							 imageAlt={weather.weather[0].description}
-				/>
+				<div className="today__text__temperature">
+					<div className="today__text__temperature__image-wrap">
+						<img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+							 alt={weather.weather[0].description}/>
+					</div>
+					<Temperature
+						degrees={Math.round(weather.main.temp)}
+						size="large"
+						units="C"
+						showUnits={true}
+						clickable={true}
+					/>
+				</div>
 				<Details description={weather.weather[0].description}
 						 humidity={weather.main.humidity}
 						 wind={weather.wind.speed}

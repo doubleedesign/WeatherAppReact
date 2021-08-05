@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react';
 import axios from "axios";
-
+import Temperature from "./Temperature";
 import "./_Forecast.scss";
 
 export default function Forecast(props) {
@@ -131,8 +131,25 @@ export default function Forecast(props) {
 				<div className="forecast__item" key={day}>
 					<span className="forecast__item__day">{day}</span>
 					<img className="forecast__item__image" src={forecast[day].imageUrl} alt=""/>
-					<span className="forecast__item__min">Low<strong>{forecast[day].min}&deg;</strong></span>
-					<span className="forecast__item__max">High<strong>{forecast[day].max}&deg;</strong></span>
+					<span className="forecast__item__min">
+						Low
+						<Temperature
+							degrees={forecast[day].min}
+							size="small"
+							units="C"
+							showUnits={false}
+						/>
+					</span>
+					<span className="forecast__item__max">
+						High
+						<Temperature
+							degrees={forecast[day].max}
+							size="small"
+							units="C"
+							showUnits={false}
+							clickable={false}
+						/>
+					</span>
 				</div>
 			))}
 		</section>;

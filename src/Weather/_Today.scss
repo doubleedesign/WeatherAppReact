@@ -17,5 +17,35 @@
 			justify-content: space-between;
 			align-items: center;
 		}
+
+		&__temperature {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			width: 100%;
+			flex-basis: 100%;
+			margin-bottom: 0.5rem;
+
+			@include breakpoint(md) {
+				width: 60%;
+				flex-basis: 60%;
+				justify-content: flex-start;
+				margin-bottom: 0;
+			}
+
+			&__image-wrap {
+				overflow: hidden;
+				margin-right: 1rem;
+				width: 4rem;
+				height: 4rem;
+
+				img {
+					height: 100%;
+					width: 100%;
+					transform: scale(1.4);
+				}
+			}
+		}
 	}
 }
