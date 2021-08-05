@@ -63,6 +63,14 @@ export default function Today(props) {
 	}, [weather])
 
 	/**
+	 * When the units prop is updated, set the state
+	 * This ensures that when the units are reset to C in App, that flows through to today's Temperature component
+	 */
+	useEffect(() => {
+		setUnits(props.units);
+	}, [props.units])
+
+	/**
 	 * What to do when the temperature component sends data up using the onUnitUpdate prop
 	 * @param unitsTo
 	 */
