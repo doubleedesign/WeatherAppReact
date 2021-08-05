@@ -26,7 +26,11 @@ export default function App() {
 	 * Ref: https://www.geeksforgeeks.org/how-to-pass-data-from-one-component-to-other-component-in-reactjs/
 	 */
 	function onSearchChange(searchedCity) {
+		// Set the new city name
 		setSearchTerm(searchedCity);
+
+		// Reset the temperature units back to the default
+		setTempUnits('C');
 	}
 
 	/**

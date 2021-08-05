@@ -67,9 +67,17 @@ export default function Forecast(props) {
 					let day = getDayAbbrev(dayNo);
 
 					// Add this forecast day's data to the summary
+					let minC = Math.round(value.temp.min);
+					let maxC = Math.round(value.temp.max);
 					summaryData[day] = {
-						min: Math.round(value.temp.min),
-						max: Math.round(value.temp.max),
+						C: {
+							min: minC,
+							max: maxC
+						},
+						F: {
+							min: convertTemperature(minC, 'C', 'F'),
+							max: convertTemperature(minC, 'C', 'F'),
+						},
 						imageUrl: `http://openweathermap.org/img/wn/${value.weather[0].icon}@2x.png`
 					}
 				})}
@@ -119,6 +127,26 @@ export default function Forecast(props) {
 	}
 
 	/**
+	 * Utility function to convert temperatures between C and F
+	 * @param temp
+	 * @param unitsFrom
+	 * @param unitsTo
+	 * @returns {number}
+	 */
+	function convertTemperature(temp, unitsFrom, unitsTo) {
+		let newTemp = temp;
+
+		if (unitsFrom === 'C' && unitsTo === 'F') {
+			newTemp = Math.round((temp * 1.8) + 32);
+		} else if (unitsFrom === 'F' && unitsTo === 'C') {
+			newTemp = Math.round((temp - 32) * 0.5556);
+		}
+
+		return newTemp;
+	}
+
+
+	/**
 	 * Put output in a variable so it can be shown conditionally
 	 * (in the component's return statement)
 	 * Ref: https://stackoverflow.com/a/24534492
@@ -136,17 +164,18 @@ export default function Forecast(props) {
 					<span className="forecast__item__min">
 						Low
 						<Temperature
-							degrees={forecast[day].min}
 							size="small"
+							degrees={forecast[day][units].min}
 							units={units}
 							showUnits={false}
+							clickable={false}
 						/>
 					</span>
 					<span className="forecast__item__max">
 						High
 						<Temperature
-							degrees={forecast[day].max}
 							size="small"
+							degrees={forecast[day][units].max}
 							units={units}
 							showUnits={false}
 							clickable={false}
