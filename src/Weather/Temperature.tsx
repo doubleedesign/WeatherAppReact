@@ -1,8 +1,16 @@
-import React, {Fragment, useState, useEffect} from "react";
+import React, {Fragment, useState} from "react";
 
 import "./_Temperature.scss";
 
-export default function Temperature(props) {
+export const Temperature: React.FC = function(
+	props: {
+		degrees: number;
+		units: string;
+		onUnitUpdate: (unitsTo: string, newTemp: number) => void;
+		size: string;
+		showUnits: boolean;
+		clickable: boolean;
+	}) {
 
 	/**
 	 * STATE
@@ -10,8 +18,8 @@ export default function Temperature(props) {
 	 * setTemperature here creates a function which will receive the current temp here from props.degrees
 	 * Likewise for the units (C/F)
 	 */
-	let [temperature, setTemperature] = useState(props.degrees);
-	let [units, setUnits] = useState(props.units);
+	const [temperature, setTemperature] = useState(props.degrees);
+	const [units, setUnits] = useState(props.units);
 
 	/**
 	 * EVENTS
@@ -22,7 +30,7 @@ export default function Temperature(props) {
 		if (units === 'C') {
 			unitsTo = 'F';
 		}
-		let newTemp = convertTemperature(temperature, units, unitsTo);
+		const newTemp = convertTemperature(temperature, units, unitsTo);
 		setTemperature(newTemp);
 		setUnits(unitsTo);
 
@@ -54,7 +62,7 @@ export default function Temperature(props) {
 	 * @returns {*}
 	 * @constructor
 	 */
-	let LinkOutput = () => (
+	const LinkOutput = () => (
 		<a className={`temperature temperature--${props.size}`} onClick={swapTemperature}>
 			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
 			{props.showUnits === true &&
@@ -68,7 +76,7 @@ export default function Temperature(props) {
 	 * @returns {*}
 	 * @constructor
 	 */
-	let SpanOutput = () => (
+	const SpanOutput = () => (
 		<span className={`temperature temperature--${props.size}`}>
 			<span className="temperature__amount" data-temp-amount={temperature}>{temperature}&deg;</span>
 			{props.showUnits === true &&
@@ -83,3 +91,5 @@ export default function Temperature(props) {
 		</Fragment>
 	)
 }
+
+export default Temperature;
