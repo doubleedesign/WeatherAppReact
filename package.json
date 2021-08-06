@@ -8,6 +8,7 @@
   ],
   "main": "src/index.js",
   "dependencies": {
+    "@types/react": "^17.0.15",
     "axios": "^0.21.1",
     "chokidar": "^3.5.2",
     "crypto-js": "^4.1.1",
