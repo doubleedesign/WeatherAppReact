@@ -8,7 +8,7 @@ import "./_Today.scss";
 
 export default function Today(props) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let [weather, setWeather] = useState(null); // See Temperature.js for notes about using state
+	let [weather, setWeather] = useState(null); // See Temperature.tsx for notes about using state
 
 	// Temperature needs to be stored separately because it can be changed
 	// (Temperature component has a C/F conversion option which breaks without this

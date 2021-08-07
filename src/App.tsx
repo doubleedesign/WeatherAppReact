@@ -109,7 +109,7 @@ export default function App() {
 
 		/**
 		 * Set and perform API query to get images from Wikimedia for the city
-		 * See Today.js for more notes about queries in useEffect hook
+		 * See Today.tsx for more notes about queries in useEffect hook
 		 */
 		return axios.get(query)
 			.then(response => {
