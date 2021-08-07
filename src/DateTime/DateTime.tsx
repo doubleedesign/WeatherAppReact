@@ -1,19 +1,31 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
 import axios from "axios";
-
 import "./_DateTime.scss";
 
-export default function DateTime(props) {
-	let [timeData, setTimeData] = useState(null);
+export interface DateTimeProps {
+	coords: {lat: number, lon: number};
+}
+
+export const DateTime: React.FC<DateTimeProps> = function(
+	props: {
+		coords: {lat: number, lon: number};
+	}) {
+
+	let [timeData, setTimeData] = useState({
+		day: '',
+		hours: 0,
+		minutes: 0,
+		meridiem: '',
+		zoneName: '',
+		zoneUTC: ''
+	});
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
 	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 * @param func
-	 * @param deps
 	 */
-	const useDidMountEffect = (func, deps) => {
+	const useDidMountEffect = () => {
 		const didMount = useRef(false);
 
 		useEffect(() => {
@@ -30,7 +42,7 @@ export default function DateTime(props) {
 	 * Get time information from IPGeolocation API for a given set of lat/long coordinates
 	 * @param coords
 	 */
-	function getTimeForCity(coords) {
+	function getTimeForCity(coords: { lat: number; lon: number; }) {
 		const query = `https://api.ipgeolocation.io/timezone?apiKey=ff944d6f7e6449e4804af70e245bbabd&lat=${coords.lat}&long=${coords.lon}`;
 
 		axios.get(query)
@@ -70,7 +82,7 @@ export default function DateTime(props) {
 	 * @returns {*}
 	 * @constructor
 	 */
-	let Output = () => (
+	let Output = (): any => (
 		<section className="datetime row">
 			<span className="datetime__time">
 				<span className="material-icons-outlined">alarm</span>
@@ -92,3 +104,5 @@ export default function DateTime(props) {
 		</Fragment>
 	)
 }
+
+export default DateTime;

@@ -1,15 +1,19 @@
 import React, {useState} from "react";
 import "./_Search.scss";
 
-export default function Search(props) {
+export interface SearchProps {
+	onSearch(city: string): any;
+}
+
+export const Search: React.FC<SearchProps> = function(props) {
     let [city, setCity] = useState('');
 
-    function handleSearch(event) {
+    function handleSearch(event: { preventDefault: () => void; }) {
         event.preventDefault();
         props.onSearch(city); // sends city back to the parent component
     }
 
-    function updateCity(event) {
+    function updateCity(event: React.ChangeEvent<HTMLInputElement>) {
         setCity(event.target.value); // Updates state variable when input changes
     }
 
@@ -26,3 +30,5 @@ export default function Search(props) {
 		</section>
 	);
 }
+
+export default Search;

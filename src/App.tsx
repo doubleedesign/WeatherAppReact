@@ -2,7 +2,7 @@ import "./_variables.scss";
 import "./_utilities.scss";
 import "./_App.scss";
 
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Search from "./Search/Search";
 import Title from "./Title/Title";
 import Today from "./Weather/Today";
@@ -16,7 +16,7 @@ export default function App() {
 	let [searchTerm, setSearchTerm] = useState('');
 	let [city, setCity] = useState('');
 	let [country, setCountry] = useState('');
-	let [coords, setCoords] = useState('');
+	let [coords, setCoords] = useState({lat: 0, lon: 0});
 	let [tempRange, setTempRange] = useState('');
 	let [tempUnits, setTempUnits] = useState('C');
 	let [backgroundImage, setBackgroundImage] = useState('');
@@ -25,7 +25,7 @@ export default function App() {
 	 * When a city is searched for, set the state so child components can pick it up
 	 * Ref: https://www.geeksforgeeks.org/how-to-pass-data-from-one-component-to-other-component-in-reactjs/
 	 */
-	function onSearchChange(searchedCity) {
+	function onSearchChange(searchedCity: string) {
 		// Set the new city name
 		setSearchTerm(searchedCity);
 
@@ -38,7 +38,12 @@ export default function App() {
 	 * Here we update the state variables used by those components when new data is received
 	 * @param data
 	 */
-	function onWeatherChange(data) {
+	function onWeatherChange(data: {
+		coords: {lat: 0, lon: 0};
+		city: string,
+		country: string,
+		temperature: number,
+	}) {
 
 		// Display the returned city name rather than exactly what was searched
 		setCity(data.city);
@@ -56,7 +61,7 @@ export default function App() {
 		else if(data.temperature > 15 && data.temperature < 25 ) {
 			setTempRange('fair');
 		}
-		else if(data.temperature >= 25 < 35) {
+		else if((data.temperature >= 25) && (data.temperature < 35)) {
 			setTempRange('warm');
 		}
 		else {
@@ -69,7 +74,7 @@ export default function App() {
 	 * Here we update the state variables used by those components when new data is received
 	 * @param units
 	 */
-	function onUnitChange(units) {
+	function onUnitChange(units: React.SetStateAction<string>) {
 		setTempUnits(units);
 	}
 
@@ -77,10 +82,8 @@ export default function App() {
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
 	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 * @param func
-	 * @param deps
 	 */
-	const useDidMountEffect = (func, deps) => {
+	const useDidMountEffect = () => {
 		const didMount = useRef(false);
 
 		/**
@@ -89,7 +92,8 @@ export default function App() {
 		useEffect(() => {
 			if (didMount.current) {
 				getImageForCity(city).then(response => {
-					setBackgroundImage(response);
+					let imageUrl: any = response;
+					setBackgroundImage(imageUrl);
 				});
 			} else {
 				didMount.current = true;
@@ -103,7 +107,7 @@ export default function App() {
 	 * @param city
 	 * @returns {Promise<AxiosResponse<any>>}
 	 */
-	async function getImageForCity(city) {
+	async function getImageForCity(city: string) {
 		const query = `https://commons.wikimedia.org/w/api.php?action=query&prop=images&imlimit=500&redirects=1&titles=${city}&origin=*&format=json`;
 		let imageUrl = '';
 
@@ -116,7 +120,7 @@ export default function App() {
 				// The key that the images are under varies for each city,
 				// so dig down to the right object and use Object.entries to find the images so that the city key doesn't matter
 				let object = response.data.query.pages;
-				//return response.data.query.pages;
+				// @ts-ignore
 				let images = Object.entries(object)[0][1].images; // returns a list of file paths
 
 				if(images) {
@@ -149,7 +153,7 @@ export default function App() {
 	 * @param max
 	 * @returns {number}
 	 */
-	function getRandomInt(min, max) {
+	function getRandomInt(min: number, max: number) {
 		min = Math.ceil(min);
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1)) + min;

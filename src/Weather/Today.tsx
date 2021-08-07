@@ -1,29 +1,69 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
-import DateTime from "../DateTime/DateTime";
 import Temperature from "./Temperature";
 import Details from "./Details";
 import axios from "axios";
-
 import "./_Today.scss";
 
-export default function Today(props) {
+export interface TodayProps {
+	units: string;
+	city: string,
+	onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: any }): void;
+	onUnitUpdate(unitsTo: string): void;
+}
+
+type WeatherResponse = // ref: https://github.com/microsoft/TypeScript/issues/20597
+	{
+		wind: any;
+		weather: any;
+		name: string,
+		sys: any,
+		coord: {
+			lat: number,
+			lon: number
+		},
+		main: {
+			humidity: any;
+			temp: number
+		}
+	};
+
+
+export const Today: React.FC<TodayProps> = function(
+	props: {
+		units: string;
+		city: string,
+		onWeatherUpdate(data: { country: string; city: string; temperature: number; units: string; coords: { lat: number; lon: number } }): void;
+		onUnitUpdate(unitsTo: string): void;
+	}) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let [weather, setWeather] = useState(null); // See Temperature.tsx for notes about using state
+	let emptyResponse: WeatherResponse = {
+		wind: 0,
+		weather: {},
+		name: '',
+		sys: {},
+		coord: {
+			lat: 0,
+			lon: 0
+		},
+		main: {
+			humidity: 0,
+			temp: 0
+		}
+	}
+	let [weather, setWeather] = useState(emptyResponse);
 
 	// Temperature needs to be stored separately because it can be changed
 	// (Temperature component has a C/F conversion option which breaks without this
 	// unless we weren't going to send the unit change between the various components)
-	let [temperature, setTemperature] = useState(null);
+	let [temperature, setTemperature] = useState(0);
 	let [units, setUnits] = useState(props.units);
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
 	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 * @param func
-	 * @param deps
 	 */
-	const useDidMountEffect = (func, deps) => {
+	const useDidMountEffect = () => {
 		const didMount = useRef(false);
 
 		/**
@@ -73,8 +113,9 @@ export default function Today(props) {
 	/**
 	 * What to do when the temperature component sends data up using the onUnitUpdate prop
 	 * @param unitsTo
+	 * @param newTemp
 	 */
-	function switchUnits(unitsTo, newTemp) {
+	function switchUnits(unitsTo: string, newTemp: React.SetStateAction<number>) {
 		// Update the state in this component
 		setUnits(unitsTo);
 		setTemperature(newTemp);
@@ -88,14 +129,15 @@ export default function Today(props) {
 	 * and save it in the state variable
 	 * @param city
 	 */
-	function getWeatherForCity(city) {
+	function getWeatherForCity(city: string) {
 		let query = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${apiKey}&units=metric`;
 		axios.get(query)
 			// Update component state when an API response is received
 			// Catch and log error if there is one
 			.then(response => {
 				setWeather(response.data);
-				setTemperature(Math.round(response.data.main.temp));
+				let roundedTemp = Math.round(response.data.main.temp);
+				setTemperature(roundedTemp);
 				/**
 				 * NOTES:
 				 * sending weather.main.temp up to the parent via
@@ -152,3 +194,5 @@ export default function Today(props) {
 		</Fragment>
 	)
 }
+
+export default Today;

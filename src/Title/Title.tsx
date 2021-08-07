@@ -1,10 +1,14 @@
 import React, {Fragment} from "react";
-
 import "./_Title.scss";
 
-// Title output only shown when props.city exists
-// Ref: https://stackoverflow.com/a/24534492
-export default function Title(props) {
+export interface TitleProps {
+	city: string
+}
+
+export const Title: React.FC<TitleProps> = function(
+	props: {
+		city: string
+	}) {
 
 	/**
 	 * Put output in a variable so it can be shown conditionally
@@ -29,3 +33,5 @@ export default function Title(props) {
 		</Fragment>
 	)
 }
+
+export default Title;

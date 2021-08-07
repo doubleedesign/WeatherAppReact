@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import LinesEllipsis from "react-lines-ellipsis";
-
 import "./_Article.scss";
 
 export default function Article(props) {
