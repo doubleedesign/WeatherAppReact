@@ -2,7 +2,16 @@ import React, {Fragment, useState} from "react";
 
 import "./_Temperature.scss";
 
-export const Temperature: React.FC = function(
+export interface TemperatureProps {
+	degrees: number;
+	units: string;
+	onUnitUpdate: (unitsTo: string, newTemp: number) => void;
+	size: string;
+	showUnits: boolean;
+	clickable: boolean;
+}
+
+export const Temperature: React.FC<TemperatureProps> = function(
 	props: {
 		degrees: number;
 		units: string;
@@ -45,7 +54,7 @@ export const Temperature: React.FC = function(
 	 * @param unitsTo
 	 * @returns {number}
 	 */
-	function convertTemperature(temp, unitsFrom, unitsTo) {
+	function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
 		let newTemp = temp;
 
 		if (unitsFrom === 'C' && unitsTo === 'F') {
