@@ -14,7 +14,7 @@ export const News: React.FC<NewsProps> = function(
 		country: string
 	}) {
 	const didMount = useRef(false);
-	let [news, setNews] = useState({} as any);
+	const [news, setNews] = useState({} as any);
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
@@ -50,7 +50,7 @@ export const News: React.FC<NewsProps> = function(
 				 * - the same article published in multiple publications in a network (e.g. The Age and SMH)
 				 * so let's filter and save just unique ones to the state variable
 				 */
-				let filteredArticles = removeDuplicates(response.data.data, 'title');
+				const filteredArticles = removeDuplicates(response.data.data, 'title');
 				setNews(filteredArticles.slice(0,3));
 			}).catch(error => {
 				console.log(error);
@@ -78,7 +78,7 @@ export const News: React.FC<NewsProps> = function(
 	 * @returns {*}
 	 * @constructor
 	 */
-	let Output = () => (
+	const Output = () => (
 		<aside id="news">
 			{ /** Loop through the forecast items and add each one to the page */}
 			{Object.entries(news).map((item, index) => (

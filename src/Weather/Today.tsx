@@ -36,7 +36,7 @@ export const Today: React.FC<TodayProps> = function(
 		onUnitUpdate(unitsTo: string): void;
 	}) {
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let emptyResponse: WeatherResponse = {
+	const emptyResponse: WeatherResponse = {
 		wind: 0,
 		weather: {},
 		name: '',
@@ -50,13 +50,13 @@ export const Today: React.FC<TodayProps> = function(
 			temp: 0
 		}
 	}
-	let [weather, setWeather] = useState(emptyResponse);
+	const [weather, setWeather] = useState(emptyResponse);
 
 	// Temperature needs to be stored separately because it can be changed
 	// (Temperature component has a C/F conversion option which breaks without this
 	// unless we weren't going to send the unit change between the various components)
-	let [temperature, setTemperature] = useState(0);
-	let [units, setUnits] = useState(props.units);
+	const [temperature, setTemperature] = useState(0);
+	const [units, setUnits] = useState(props.units);
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
@@ -91,7 +91,7 @@ export const Today: React.FC<TodayProps> = function(
 	 */
 	useEffect(() => {
 		if(weather) {
-			let data = {
+			const data = {
 				city: weather.name,
 				country: weather.sys.country,
 				coords: weather.coord,
@@ -130,13 +130,13 @@ export const Today: React.FC<TodayProps> = function(
 	 * @param city
 	 */
 	function getWeatherForCity(city: string) {
-		let query = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${apiKey}&units=metric`;
+		const query = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${apiKey}&units=metric`;
 		axios.get(query)
 			// Update component state when an API response is received
 			// Catch and log error if there is one
 			.then(response => {
 				setWeather(response.data);
-				let roundedTemp = Math.round(response.data.main.temp);
+				const roundedTemp = Math.round(response.data.main.temp);
 				setTemperature(roundedTemp);
 				/**
 				 * NOTES:
@@ -159,7 +159,7 @@ export const Today: React.FC<TodayProps> = function(
 	 * @returns {*}
 	 * @constructor
 	 */
-	let Output = () => (
+	const Output = () => (
 		<section className="today row">
 			<div className="today__text">
 				<div className="today__text__temperature">

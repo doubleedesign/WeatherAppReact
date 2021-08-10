@@ -15,8 +15,8 @@ export const Forecast: React.FC<ForecastProps> = function(
 		}
 	){
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let [forecast, setForecast] = useState({} as any); // https://basarat.gitbook.io/typescript/main-1/lazyobjectliteralinitialization
-	let [units, setUnits] = useState('C'); // See Temperature.tsx for notes about using state
+	const [forecast, setForecast] = useState({} as any); // https://basarat.gitbook.io/typescript/main-1/lazyobjectliteralinitialization
+	const [units, setUnits] = useState('C'); // See Temperature.tsx for notes about using state
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
@@ -48,7 +48,7 @@ export const Forecast: React.FC<ForecastProps> = function(
 	 * @param coords
 	 */
 	function getForecastForCity(coords: { lat: number; lon: number; }) {
-		let query = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coords.lat}&lon=${props.coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
+		const query = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coords.lat}&lon=${props.coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
 
 		axios.get(query)
 			// Update component state when an API response is received
@@ -60,23 +60,23 @@ export const Forecast: React.FC<ForecastProps> = function(
 				fullData = fullData.slice(1, 6);
 
 				// Loop through the returned data and put just what we want into an object
-				let summaryData: { [key: string]: any } = {};
+				const summaryData: { [key: string]: any } = {};
 				{fullData.map((value: { dt: any; temp: { min: number; max: number; }; weather: { icon: any; }[]; }, index: any) => {
 					// Get current timezone offset
-					let today = new Date();
-					let offset = today.getTimezoneOffset();
+					const today = new Date();
+					const offset = today.getTimezoneOffset();
 
 					// Get the forecast day's unix timestamp from the returned data
-					let timestamp = value.dt;
+					const timestamp = value.dt;
 
 					// Get the day of that timestamp taking the timezone offset into account
-					let date = new Date((timestamp * 1000) + (offset * 60 * 1000));
-					let dayNo = date.getDay();
-					let day = getDayAbbrev(dayNo);
+					const date = new Date((timestamp * 1000) + (offset * 60 * 1000));
+					const dayNo = date.getDay();
+					const day = getDayAbbrev(dayNo);
 
 					// Add this forecast day's data to the summary
-					let minC = Math.round(value.temp.min);
-					let maxC = Math.round(value.temp.max);
+					const minC = Math.round(value.temp.min);
+					const maxC = Math.round(value.temp.max);
 					summaryData[day] = {
 						C: {
 							min: minC,

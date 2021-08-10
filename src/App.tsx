@@ -13,13 +13,13 @@ import DateTime from "./DateTime/DateTime";
 import News from "./News/News";
 
 export default function App() {
-	let [searchTerm, setSearchTerm] = useState('');
-	let [city, setCity] = useState('');
-	let [country, setCountry] = useState('');
-	let [coords, setCoords] = useState({lat: 0, lon: 0});
-	let [tempRange, setTempRange] = useState('');
-	let [tempUnits, setTempUnits] = useState('C');
-	let [backgroundImage, setBackgroundImage] = useState('');
+	const [searchTerm, setSearchTerm] = useState('');
+	const [city, setCity] = useState('');
+	const [country, setCountry] = useState('');
+	const [coords, setCoords] = useState({lat: 0, lon: 0});
+	const [tempRange, setTempRange] = useState('');
+	const [tempUnits, setTempUnits] = useState('C');
+	const [backgroundImage, setBackgroundImage] = useState('');
 
 	/**
 	 * When a city is searched for, set the state so child components can pick it up
@@ -92,7 +92,7 @@ export default function App() {
 		useEffect(() => {
 			if (didMount.current) {
 				getImageForCity(city).then(response => {
-					let imageUrl: any = response;
+					const imageUrl: any = response;
 					setBackgroundImage(imageUrl);
 				});
 			} else {
@@ -119,20 +119,20 @@ export default function App() {
 			.then(response => {
 				// The key that the images are under varies for each city,
 				// so dig down to the right object and use Object.entries to find the images so that the city key doesn't matter
-				let object = response.data.query.pages;
+				const object = response.data.query.pages;
 				// @ts-ignore
-				let images = Object.entries(object)[0][1].images; // returns a list of file paths
+				const images = Object.entries(object)[0][1].images; // returns a list of file paths
 
 				if(images) {
 					// Choose a random one from the returned list and adjust the text string to what we need
-					let randomIndex = getRandomInt(0, images.length);
-					let imageFile = (images[randomIndex].title)
+					const randomIndex = getRandomInt(0, images.length);
+					const imageFile = (images[randomIndex].title)
 						.replace('File:', '')
 						.replace(/ /g, '_');
 
 					// Build the URL from the file information
 					// Ref: https://stackoverflow.com/a/33691240
-					let imageHash = CryptoJS.MD5(imageFile).toString();
+					const imageHash = CryptoJS.MD5(imageFile).toString();
 					imageUrl = `https://upload.wikimedia.org/wikipedia/commons/${imageHash.charAt(0)}/${imageHash.charAt(0)}${imageHash.charAt(1)}/${imageFile}`;
 				}
 				else {

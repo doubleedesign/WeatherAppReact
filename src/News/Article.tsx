@@ -10,8 +10,8 @@ export const Article: React.FC<ArticleProps> = function(
     props: {
         data: any
     }) {
-    let date = new Date(props.data[1].published_at);
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const date = new Date(props.data[1].published_at);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     /**
      * Output

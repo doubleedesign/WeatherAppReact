@@ -2,11 +2,13 @@ import React, {useState} from "react";
 import "./_Search.scss";
 
 export interface SearchProps {
-	onSearch(city: string): any;
+	onSearch(city: string): void;
 }
 
-export const Search: React.FC<SearchProps> = function(props) {
-    let [city, setCity] = useState('');
+export const Search: React.FC<SearchProps> = function(props: {
+		onSearch(city: string): void;
+	}) {
+	const [city, setCity] = useState('');
 
     function handleSearch(event: { preventDefault: () => void; }) {
         event.preventDefault();
