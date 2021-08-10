@@ -7,28 +7,9 @@ import "./_Today.scss";
 export interface TodayProps {
     units: string;
     city: string,
-
     onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: { lat: number, lon: number } }): void;
-
     onUnitUpdate(unitsTo: string): void;
 }
-
-type WeatherResponse = // ref: https://github.com/microsoft/TypeScript/issues/20597
-    {
-        wind: any;
-        weather: any;
-        name: string,
-        sys: any,
-        coord: {
-            lat: number,
-            lon: number
-        },
-        main: {
-            humidity: any;
-            temp: number
-        }
-    };
-
 
 export const Today: React.FC<TodayProps> = function (
     props: {
@@ -38,21 +19,7 @@ export const Today: React.FC<TodayProps> = function (
         onUnitUpdate(unitsTo: string): void;
     }) {
     const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-    const emptyResponse: WeatherResponse = {
-        wind: 0,
-        weather: {},
-        name: '',
-        sys: {},
-        coord: {
-            lat: 0,
-            lon: 0
-        },
-        main: {
-            humidity: 0,
-            temp: 0
-        }
-    }
-    const [weather, setWeather] = useState(emptyResponse);
+    const [weather, setWeather] = useState<Record<string, any>|null>(null);
 
     // Temperature needs to be stored separately because it can be changed
     // (Temperature component has a C/F conversion option which breaks without this
@@ -149,8 +116,8 @@ export const Today: React.FC<TodayProps> = function (
                  * but I thought it was better to try to work out how to get it from the weather variable at the right time
                  **/
             }).catch(error => {
-            console.log(error);
-            alert('Sorry, couldn\'t find that city. Please try again');
+                console.log(error);
+                alert('Sorry, couldn\'t find that city. Please try again');
         })
     }
 
@@ -161,30 +128,34 @@ export const Today: React.FC<TodayProps> = function (
      * @returns {*}
      * @constructor
      */
-    const Output = () => (
-        <section className="today row">
-            <div className="today__text">
-                <div className="today__text__temperature">
-                    <div className="today__text__temperature__image-wrap">
-                        <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                             alt={weather.weather[0].description}/>
+    const Output = (): any => {
+        if(weather) {
+            return (
+                <section className="today row">
+                    <div className="today__text">
+                        <div className="today__text__temperature">
+                            <div className="today__text__temperature__image-wrap">
+                                <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                                     alt={weather.weather[0].description}/>
+                            </div>
+                            <Temperature
+                                size="large"
+                                degrees={temperature}
+                                units={units}
+                                showUnits={true}
+                                clickable={true}
+                                onUnitUpdate={switchUnits}
+                            />
+                        </div>
+                        <Details description={weather.weather[0].description}
+                                 humidity={weather.main.humidity}
+                                 wind={weather.wind.speed}
+                        />
                     </div>
-                    <Temperature
-                        size="large"
-                        degrees={temperature}
-                        units={units}
-                        showUnits={true}
-                        clickable={true}
-                        onUnitUpdate={switchUnits}
-                    />
-                </div>
-                <Details description={weather.weather[0].description}
-                         humidity={weather.main.humidity}
-                         wind={weather.wind.speed}
-                />
-            </div>
-        </section>
-    )
+                </section>
+            );
+        }
+    }
 
     /**
      * Output - only shown when weather exists

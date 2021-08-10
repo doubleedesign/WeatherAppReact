@@ -39,9 +39,9 @@ export default function App() {
 	 * @param data
 	 */
 	function onWeatherChange(data: {
-		coords: {lat: 0, lon: 0};
 		city: string,
 		country: string,
+		coords: {lat: number, lon: number};
 		temperature: number,
 	}) {
 
@@ -119,8 +119,7 @@ export default function App() {
 			.then(response => {
 				// The key that the images are under varies for each city,
 				// so dig down to the right object and use Object.entries to find the images so that the city key doesn't matter
-				const object = response.data.query.pages;
-				// @ts-ignore
+				const object: Record<string, any> = response.data.query.pages;
 				const images = Object.entries(object)[0][1].images; // returns a list of file paths
 
 				if(images) {
