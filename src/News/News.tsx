@@ -14,7 +14,7 @@ export const News: React.FC<NewsProps> = function(
 		country: string
 	}) {
 	const didMount = useRef(false);
-	const [news, setNews] = useState({} as any);
+	const [news, setNews] = useState([]);
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
@@ -39,36 +39,17 @@ export const News: React.FC<NewsProps> = function(
 	 * @param country
 	 */
 	function getNewsForCity(city: string, country: string) {
-		const apiKey = '08891a748fd7fa7ce11a51df32582a37';
-		const query = `http://api.mediastack.com/v1/news?access_key=${apiKey}&limit=20&countries=${country}&keywords=${city}`;
+		const apiKey = 'b4824ef81779b5b36a81816125585feb';
+		const query = `https://gnews.io/api/v4/search?q=${city}&country=${country}&lang=en&token=${apiKey}`;
 
 		axios.get(query)
 			.then(response => {
-				//console.log(response.data.data);
-				/**
-				 * Many articles returned from the API are basically duplicates
-				 * - the same article published in multiple publications in a network (e.g. The Age and SMH)
-				 * so let's filter and save just unique ones to the state variable
-				 */
-				const filteredArticles = removeDuplicates(response.data.data, 'title');
-				setNews(filteredArticles.slice(0,3));
+				const articles = response.data.articles;
+				setNews(articles.slice(0,3));
 			}).catch(error => {
 				console.log(error);
-				setNews(null);
+				setNews([]);
 			})
-	}
-
-	/**
-	 * Utility function to remove objects from an array based on a duplicate value for a given property
-	 * Ref: https://stackoverflow.com/a/43067954/6913674
-	 * @param myArray
-	 * @param property
-	 * @returns {*}
-	 */
-	function removeDuplicates(myArray: any[], property: string) {
-		return myArray.filter((obj, pos, arr) => {
-			return arr.map(mapObj => mapObj[property]).indexOf(obj[property]) === pos
-		})
 	}
 
 	/**
@@ -80,8 +61,8 @@ export const News: React.FC<NewsProps> = function(
 	 */
 	const Output = () => (
 		<aside id="news">
-			{ /** Loop through the forecast items and add each one to the page */}
-			{Object.entries(news).map((item, index) => (
+			{ /** Loop through the news items and add each one to the page */}
+			{news.map((item, index) => (
 				<Article key={index} data={item}/>
 			))}
 		</aside>
