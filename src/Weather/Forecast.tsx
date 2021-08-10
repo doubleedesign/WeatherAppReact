@@ -3,19 +3,27 @@ import axios from "axios";
 import Temperature from "./Temperature";
 import "./_Forecast.scss";
 
-export default function Forecast(props) {
+export interface ForecastProps {
+	coords: { lat: number; lon: number; };
+	units: React.SetStateAction<string>;
+}
+
+export const Forecast: React.FC<ForecastProps> = function(
+		props: {
+			coords: { lat: number; lon: number; };
+			units: React.SetStateAction<string>;
+		}
+	){
 	const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-	let [forecast, setForecast] = useState(null); // See Temperature.tsx for notes about using state
-	let [units, setUnits] = useState('C');
+	let [forecast, setForecast] = useState({} as any); // https://basarat.gitbook.io/typescript/main-1/lazyobjectliteralinitialization
+	let [units, setUnits] = useState('C'); // See Temperature.tsx for notes about using state
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
 	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 * @param func
-	 * @param deps
 	 */
-	const useDidMountEffect = (func, deps) => {
+	const useDidMountEffect = () => {
 		const didMount = useRef(false);
 
 		/**
@@ -39,7 +47,7 @@ export default function Forecast(props) {
 	 * Note: Forecast query requires coordinates, not city name
 	 * @param coords
 	 */
-	function getForecastForCity(coords) {
+	function getForecastForCity(coords: { lat: number; lon: number; }) {
 		let query = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coords.lat}&lon=${props.coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
 
 		axios.get(query)
@@ -52,8 +60,8 @@ export default function Forecast(props) {
 				fullData = fullData.slice(1, 6);
 
 				// Loop through the returned data and put just what we want into an object
-				let summaryData = {};
-				{fullData.map((value, index) => {
+				let summaryData: { [key: string]: any } = {};
+				{fullData.map((value: { dt: any; temp: { min: number; max: number; }; weather: { icon: any; }[]; }, index: any) => {
 					// Get current timezone offset
 					let today = new Date();
 					let offset = today.getTimezoneOffset();
@@ -95,7 +103,7 @@ export default function Forecast(props) {
 	 * @param number
 	 * @returns {string}
 	 */
-	function getDayAbbrev(number) {
+	function getDayAbbrev(number: number) {
 		let day = '';
 		switch(number) {
 			case 0:
@@ -133,7 +141,7 @@ export default function Forecast(props) {
 	 * @param unitsTo
 	 * @returns {number}
 	 */
-	function convertTemperature(temp, unitsFrom, unitsTo) {
+	function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
 		let newTemp = temp;
 
 		if (unitsFrom === 'C' && unitsTo === 'F') {
@@ -145,6 +153,17 @@ export default function Forecast(props) {
 		return newTemp;
 	}
 
+	/**
+	 * What to do if the temperature component sends data up using the onUnitUpdate prop
+	 * This does more in the Today component because that one uses clickable Temperatures whereas this one doesn't
+	 * TODO: Refactor so there's less duplication and so this component can handle clickable Temperatures properly too
+	 * @param unitsTo
+	 * @param newTemp
+	 */
+	function switchUnits(unitsTo: string, newTemp: React.SetStateAction<number>) {
+		// Update the state in this component
+		setUnits(unitsTo);
+	}
 
 	/**
 	 * Put output in a variable so it can be shown conditionally
@@ -169,7 +188,7 @@ export default function Forecast(props) {
 							units={units}
 							showUnits={false}
 							clickable={false}
-						/>
+						 	onUnitUpdate={switchUnits}/>
 					</span>
 					<span className="forecast__item__max">
 						High
@@ -179,7 +198,7 @@ export default function Forecast(props) {
 							units={units}
 							showUnits={false}
 							clickable={false}
-						/>
+						 	onUnitUpdate={switchUnits}/>
 					</span>
 				</div>
 			))}
@@ -196,3 +215,5 @@ export default function Forecast(props) {
 		</Fragment>
 	);
 }
+
+export default Forecast;

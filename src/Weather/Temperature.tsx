@@ -5,20 +5,20 @@ import "./_Temperature.scss";
 export interface TemperatureProps {
 	degrees: number;
 	units: string;
-	onUnitUpdate: (unitsTo: string, newTemp: number) => void;
 	size: string;
 	showUnits: boolean;
 	clickable: boolean;
+	onUnitUpdate: (unitsTo: string, newTemp: number) => void;
 }
 
 export const Temperature: React.FC<TemperatureProps> = function(
 	props: {
 		degrees: number;
 		units: string;
-		onUnitUpdate: (unitsTo: string, newTemp: number) => void;
 		size: string;
 		showUnits: boolean;
 		clickable: boolean;
+		onUnitUpdate: (unitsTo: string, newTemp: number) => void;
 	}) {
 
 	/**

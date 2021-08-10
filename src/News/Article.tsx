@@ -1,9 +1,15 @@
 import React, {useState} from "react";
-import LinesEllipsis from "react-lines-ellipsis";
+//import LinesEllipsis from "react-lines-ellipsis";
 import "./_Article.scss";
 
-export default function Article(props) {
-    //console.log(props.data[1]);
+export interface ArticleProps {
+    data: any
+}
+
+export const Article: React.FC<ArticleProps> = function(
+    props: {
+        data: any
+    }) {
     let date = new Date(props.data[1].published_at);
     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -19,9 +25,11 @@ export default function Article(props) {
                     <span>{props.data[1].source}</span>
                 </p>
                 <div className="article__inner__copy">
-                    <LinesEllipsis component="p" text={props.data[1].description} maxLine="3" ellipsis="..." trimRight basedOn="letters"/>
+                    {/*<LinesEllipsis component="p" text={props.data[1].description} maxLine="3" ellipsis="..." trimRight basedOn="letters"/> */}
                 </div>
             </a>
         </article>
     )
 }
+
+export default Article;

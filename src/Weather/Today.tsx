@@ -7,7 +7,7 @@ import "./_Today.scss";
 export interface TodayProps {
 	units: string;
 	city: string,
-	onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: any }): void;
+	onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: {lat: number, lon: number} }): void;
 	onUnitUpdate(unitsTo: string): void;
 }
 
@@ -111,7 +111,7 @@ export const Today: React.FC<TodayProps> = function(
 	}, [props.units])
 
 	/**
-	 * What to do when the temperature component sends data up using the onUnitUpdate prop
+	 * What to do if the temperature component sends data up using the onUnitUpdate prop
 	 * @param unitsTo
 	 * @param newTemp
 	 */

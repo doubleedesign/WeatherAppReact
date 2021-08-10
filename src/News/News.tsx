@@ -3,18 +3,25 @@ import axios from "axios";
 import Article from "./Article"
 import Alert from "../Alert/Alert"
 
-export default function News(props) {
+export interface NewsProps {
+	city: string,
+	country: string
+}
+
+export const News: React.FC<NewsProps> = function(
+	props: {
+		city: string,
+		country: string
+	}) {
 	const didMount = useRef(false);
-	let [news, setNews] = useState(null);
+	let [news, setNews] = useState({} as any);
 
 	/**
 	 * Create and use useDidMountEffect hook with useRef
 	 * for useEffect stuff that we do not want to run on first render
 	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 * @param func
-	 * @param deps
 	 */
-	const useDidMountEffect = (func, deps) => {
+	const useDidMountEffect = () => {
 		
 		useEffect(() => {
 			if (didMount.current) {
@@ -31,7 +38,7 @@ export default function News(props) {
 	 * @param city
 	 * @param country
 	 */
-	function getNewsForCity(city, country) {
+	function getNewsForCity(city: string, country: string) {
 		const apiKey = '08891a748fd7fa7ce11a51df32582a37';
 		const query = `http://api.mediastack.com/v1/news?access_key=${apiKey}&limit=20&countries=${country}&keywords=${city}`;
 
@@ -58,7 +65,7 @@ export default function News(props) {
 	 * @param property
 	 * @returns {*}
 	 */
-	function removeDuplicates(myArray, property) {
+	function removeDuplicates(myArray: any[], property: string) {
 		return myArray.filter((obj, pos, arr) => {
 			return arr.map(mapObj => mapObj[property]).indexOf(obj[property]) === pos
 		})
@@ -91,3 +98,5 @@ export default function News(props) {
 		</Fragment>
 	)
 }
+
+export default News;
