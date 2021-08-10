@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-//import LinesEllipsis from "react-lines-ellipsis";
+import truncate from "truncate"
 import "./_Article.scss";
 
 export interface ArticleProps {
@@ -25,7 +25,7 @@ export const Article: React.FC<ArticleProps> = function(
                     <span>{props.data.source.name}</span>
                 </p>
                 <div className="article__inner__copy">
-                    {/*<LinesEllipsis component="p" text={props.data.description} maxLine="3" ellipsis="..." trimRight basedOn="letters"/> */}
+                    <p>{truncate(props.data.description, 80)}</p>
                 </div>
             </a>
         </article>

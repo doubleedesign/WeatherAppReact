@@ -15,7 +15,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-lines-ellipsis": "^0.15.0",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "truncate": "^2.1.0"
   },
   "devDependencies": {
     "@babel/runtime": "7.13.8",
