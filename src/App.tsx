@@ -38,12 +38,7 @@ export default function App() {
 	 * Here we update the state variables used by those components when new data is received
 	 * @param data
 	 */
-	function onWeatherChange(data: {
-		city: string,
-		country: string,
-		coords: {lat: number, lon: number};
-		temperature: number,
-	}) {
+	function onWeatherChange(data: { city: string, country: string, coords: {lat: number, lon: number}; temperature: number, }) {
 
 		// Display the returned city name rather than exactly what was searched
 		setCity(data.city);
@@ -77,30 +72,6 @@ export default function App() {
 	function onUnitChange(units: React.SetStateAction<string>) {
 		setTempUnits(units);
 	}
-
-	/**
-	 * Create and use useDidMountEffect hook with useRef
-	 * for useEffect stuff that we do not want to run on first render
-	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
-	 */
-	const useDidMountEffect = () => {
-		const didMount = useRef(false);
-
-		/**
-		 * Get and show new background image when the city changes
-		 */
-		useEffect(() => {
-			if (didMount.current) {
-				getImageForCity(city).then(response => {
-					const imageUrl: any = response;
-					setBackgroundImage(imageUrl);
-				});
-			} else {
-				didMount.current = true;
-			}
-		}, [city]);
-	}
-	useDidMountEffect();
 
 	/**
 	 * Query Wikimedia Commons for an image of a given city
@@ -157,6 +128,30 @@ export default function App() {
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min + 1)) + min;
 	}
+
+	/**
+	 * Create and use useDidMountEffect hook with useRef
+	 * for useEffect stuff that we do not want to run on first render
+	 * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
+	 */
+	const useDidMountEffect = () => {
+		const didMount = useRef(false);
+
+		/**
+		 * Get and show new background image when the city changes
+		 */
+		useEffect(() => {
+			if (didMount.current) {
+				getImageForCity(city).then(response => {
+					const imageUrl: any = response;
+					setBackgroundImage(imageUrl);
+				});
+			} else {
+				didMount.current = true;
+			}
+		}, [city]);
+	}
+	useDidMountEffect();
 
 
 	return (
