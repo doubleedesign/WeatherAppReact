@@ -6,7 +6,8 @@ import "./_Today.scss";
 
 export interface TodayProps {
     units: string;
-    city: string,
+    city: string|null,
+    coords: {lat: number, lon: number}|null,
     onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: { lat: number, lon: number } }): void;
     onUnitUpdate(unitsTo: string): void;
 }
@@ -14,7 +15,8 @@ export interface TodayProps {
 export const Today: React.FC<TodayProps> = function (
     props: {
         units: string;
-        city: string,
+        city: string|null,
+        coords: {lat: number, lon: number}|null,
         onWeatherUpdate(data: { country: string; city: string; temperature: number; units: string; coords: { lat: number; lon: number } }): void;
         onUnitUpdate(unitsTo: string): void;
     }) {
@@ -28,30 +30,24 @@ export const Today: React.FC<TodayProps> = function (
     const [units, setUnits] = useState(props.units);
 
     /**
-     * Create and use useDidMountEffect hook with useRef
-     * for useEffect stuff that we do not want to run on first render
-     * Ref: https://thewebdev.info/2021/03/13/how-to-make-the-react-useeffect-hook-not-run-on-initial-render/
+     * Update the weather when the city or coords change
+     * This is done inside useEffect so it only re-runs if certain values have changed (in this case, props.city or props.coords)
+     * otherwise the API query runs in an infinite loop and we have a bad time.
      */
-    const useDidMountEffect = () => {
-        const didMount = useRef(false);
+    useEffect(() => {
+        if(props.city) {
+            getWeatherForCity(props.city);
+        }
+    }, [props.city]);
 
-        /**
-         * Update the weather when the city changes
-         * This is done inside useEffect so it only re-runs if certain values have changed (in this case, props.city)
-         * otherwise the API query runs in an infinite loop and we have a bad time.
-         */
-        useEffect(() => {
-            if (didMount.current) {
-                getWeatherForCity(props.city);
-            } else {
-                didMount.current = true;
-            }
-        }, [props.city]);
-    }
-    useDidMountEffect();
+    useEffect(() => {
+        if (props.coords) {
+            getWeatherForCity(props.coords);
+        }
+    }, [props.coords]);
 
-    /**
-     * Second useEffect hook to send the temperature, units, and returned city name up to the parent component after the weather state variable updates.
+    /*
+     * useEffect hook to send the temperature, units, and returned city name up to the parent component after the weather state variable updates.
      * Can't do this in the same useEffect as the query because the weather variable still contains the previous data then.
      *
      * Why send the returned city name given the user just typed the city in, you ask?
@@ -98,27 +94,36 @@ export const Today: React.FC<TodayProps> = function (
      * and save it in the state variable
      * @param city
      */
-    function getWeatherForCity(city: string) {
-        const query = `https://api.openweathermap.org/data/2.5/weather?q=${props.city}&appid=${apiKey}&units=metric`;
-        axios.get(query)
-            // Update component state when an API response is received
-            // Catch and log error if there is one
-            .then(response => {
-                setWeather(response.data);
-                const roundedTemp = Math.round(response.data.main.temp);
-                setTemperature(roundedTemp);
-                /**
-                 * NOTES:
-                 * sending weather.main.temp up to the parent via
-                 * props.onWeatherUpdate(Math.round(weather.main.temp)) doesn't work here,
-                 * because the weather variable still contains the previous data even though it was just set...
-                 * Sending the response data directly works, e.g. response.data.weather.main.temp,
-                 * but I thought it was better to try to work out how to get it from the weather variable at the right time
-                 **/
-            }).catch(error => {
-                console.log(error);
-                alert('Sorry, couldn\'t find that city. Please try again');
-        })
+    function getWeatherForCity(city: string|{lat: number, lon: number}) {
+        let query = null;
+        if(typeof city === 'object') {
+            query = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`;
+        }
+        else {
+            query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        }
+
+        if(query) {
+            axios.get(query)
+                // Update component state when an API response is received
+                // Catch and log error if there is one
+                .then(response => {
+                    setWeather(response.data);
+                    const roundedTemp = Math.round(response.data.main.temp);
+                    setTemperature(roundedTemp);
+                    /**
+                     * NOTES:
+                     * sending weather.main.temp up to the parent via
+                     * props.onWeatherUpdate(Math.round(weather.main.temp)) doesn't work here,
+                     * because the weather variable still contains the previous data even though it was just set...
+                     * Sending the response data directly works, e.g. response.data.weather.main.temp,
+                     * but I thought it was better to try to work out how to get it from the weather variable at the right time
+                     **/
+                }).catch(error => {
+                    console.log(error);
+                    alert('Sorry, couldn\'t find that city. Please try again');
+                })
+        }
     }
 
     /**

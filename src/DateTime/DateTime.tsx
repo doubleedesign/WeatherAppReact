@@ -3,12 +3,12 @@ import axios from "axios";
 import "./_DateTime.scss";
 
 export interface DateTimeProps {
-    coords: { lat: number, lon: number };
+    coords: {lat: number, lon: number}|null;
 }
 
 export const DateTime: React.FC<DateTimeProps> = function (
     props: {
-        coords: { lat: number, lon: number };
+        coords: {lat: number, lon: number}|null;
     }) {
     const [timeData, setTimeData] = useState<Record<string, any>|null>(null);
 
@@ -22,7 +22,9 @@ export const DateTime: React.FC<DateTimeProps> = function (
 
         useEffect(() => {
             if (didMount.current) {
-                getTimeForCity(props.coords);
+                if(props.coords) {
+                    getTimeForCity(props.coords);
+                }
             } else {
                 didMount.current = true;
             }

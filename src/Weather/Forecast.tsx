@@ -4,16 +4,11 @@ import Temperature from "./Temperature";
 import "./_Forecast.scss";
 
 export interface ForecastProps {
-    coords: { lat: number; lon: number; };
+    coords: {lat: number; lon: number;}|null;
     units: React.SetStateAction<string>;
 }
 
-export const Forecast: React.FC<ForecastProps> = function (
-    props: {
-        coords: { lat: number; lon: number; };
-        units: React.SetStateAction<string>;
-    }
-) {
+export const Forecast: React.FC<ForecastProps> = function(props: { coords: {lat: number; lon: number;}|null; units: React.SetStateAction<string>; }) {
     const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
     const [forecast, setForecast] = useState({} as any); // https://basarat.gitbook.io/typescript/main-1/lazyobjectliteralinitialization
     const [units, setUnits] = useState('C'); // See Temperature.tsx for notes about using state
@@ -32,14 +27,23 @@ export const Forecast: React.FC<ForecastProps> = function (
          */
         useEffect(() => {
             if (didMount.current) {
-                getForecastForCity(props.coords);
+                if(props.coords) {
+                    getForecastForCity(props.coords);
+                }
                 setUnits(props.units)
             } else {
                 didMount.current = true;
             }
-        }, [props.coords, props.units]);
+        }, [props.coords]);
     }
     useDidMountEffect();
+
+    /**
+     * When units change, set state
+     */
+    useEffect(() => {
+        setUnits(props.units)
+    }, [props.units]);
 
     /**
      * Set and perform API query to get the forecast for a given city
@@ -47,8 +51,8 @@ export const Forecast: React.FC<ForecastProps> = function (
      * Note: Forecast query requires coordinates, not city name
      * @param coords
      */
-    function getForecastForCity(coords: { lat: number; lon: number; }) {
-        const query = `https://api.openweathermap.org/data/2.5/onecall?lat=${props.coords.lat}&lon=${props.coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
+    function getForecastForCity(coords: {lat: number; lon:number;}) {
+        const query = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&units=metric&exclude=current,hourly,minutely,alerts`;
 
         axios.get(query)
             // Update component state when an API response is received
@@ -96,8 +100,8 @@ export const Forecast: React.FC<ForecastProps> = function (
                 setForecast(summaryData);
 
             }).catch(error => {
-            console.log(error);
-        })
+                console.log(error);
+            })
     }
 
     /**
