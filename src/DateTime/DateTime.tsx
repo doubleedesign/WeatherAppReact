@@ -10,15 +10,7 @@ export const DateTime: React.FC<DateTimeProps> = function (
     props: {
         coords: { lat: number, lon: number };
     }) {
-
-    const [timeData, setTimeData] = useState({
-        day: '',
-        hours: 0,
-        minutes: 0,
-        meridiem: '',
-        zoneName: '',
-        zoneUTC: ''
-    });
+    const [timeData, setTimeData] = useState<Record<string, any>|null>(null);
 
     /**
      * Create and use useDidMountEffect hook with useRef
@@ -82,17 +74,21 @@ export const DateTime: React.FC<DateTimeProps> = function (
      * @returns {*}
      * @constructor
      */
-    const Output = (): any => (
-        <section className="datetime row">
-			<span className="datetime__time">
-				<span className="material-icons-outlined">alarm</span>
-                {timeData.day} {timeData.hours}:{timeData.minutes} {timeData.meridiem}
-			</span>
-            <span className="datetime__zone">
-				{timeData.zoneName} (GMT{timeData.zoneUTC})
-			</span>
-        </section>
-    )
+    const Output = (): any => {
+        if(timeData) {
+            return (
+                <section className="datetime row">
+                <span className="datetime__time">
+                    <span className="material-icons-outlined">alarm</span>
+                    {timeData.day} {timeData.hours}:{timeData.minutes} {timeData.meridiem}
+                </span>
+                    <span className="datetime__zone">
+                    {timeData.zoneName} (GMT{timeData.zoneUTC})
+                </span>
+                </section>
+            );
+        }
+    }
 
     /**
      * Output - only shown when time data exists
