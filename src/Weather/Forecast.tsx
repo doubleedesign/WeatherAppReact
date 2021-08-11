@@ -85,7 +85,7 @@ export const Forecast: React.FC<ForecastProps> = function (
                             },
                             F: {
                                 min: convertTemperature(minC, 'C', 'F'),
-                                max: convertTemperature(minC, 'C', 'F'),
+                                max: convertTemperature(maxC, 'C', 'F'),
                             },
                             imageUrl: `http://openweathermap.org/img/wn/${value.weather[0].icon}@2x.png`
                         }
