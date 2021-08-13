@@ -1,71 +1,18 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
 import Temperature from "./Temperature";
 import Details from "./Details";
-import axios from "axios";
 import "./_Today.scss";
 
 export interface TodayProps {
+    weather: any|null,
+    temperature: number,
     units: string;
-    city: string|null,
-    coords: {lat: number, lon: number}|null,
-    onWeatherUpdate(data: { country: any; city: any; temperature: number; units: string; coords: { lat: number, lon: number } }): void;
     onUnitUpdate(unitsTo: string): void;
 }
 
-export const Today: React.FC<TodayProps> = function (
-    props: {
-        units: string;
-        city: string|null,
-        coords: {lat: number, lon: number}|null,
-        onWeatherUpdate(data: { country: string; city: string; temperature: number; units: string; coords: { lat: number; lon: number } }): void;
-        onUnitUpdate(unitsTo: string): void;
-    }) {
-    const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
-    const [weather, setWeather] = useState<Record<string, any>|null>(null);
-
-    // Temperature needs to be stored separately because it can be changed
-    // (Temperature component has a C/F conversion option which breaks without this
-    // unless we weren't going to send the unit change between the various components)
-    const [temperature, setTemperature] = useState(0);
+export const Today: React.FC<TodayProps> = function(props: { weather: any; temperature: number; units: string; onUnitUpdate(unitsTo: string): void; }) {
+    const [temperature, setTemperature] = useState(props.temperature); // Temperature needs to be stored separately from the weather object because it can be changed by the C/F conversion functionality
     const [units, setUnits] = useState(props.units);
-
-    /**
-     * Update the weather when the city or coords change
-     * This is done inside useEffect so it only re-runs if certain values have changed (in this case, props.city or props.coords)
-     * otherwise the API query runs in an infinite loop and we have a bad time.
-     */
-    useEffect(() => {
-        if(props.city) {
-            getWeatherForCity(props.city);
-        }
-    }, [props.city]);
-
-    useEffect(() => {
-        if (props.coords) {
-            getWeatherForCity(props.coords);
-        }
-    }, [props.coords]);
-
-    /*
-     * useEffect hook to send the temperature, units, and returned city name up to the parent component after the weather state variable updates.
-     * Can't do this in the same useEffect as the query because the weather variable still contains the previous data then.
-     *
-     * Why send the returned city name given the user just typed the city in, you ask?
-     * The user could type in lowercase, could need to type a qualifier (e.g. need to use 'Melbourne AU' or else you get Melbourne Florida)
-     * Using the returned one ensures the output is written as expected in the title component
-     */
-    useEffect(() => {
-        if (weather) {
-            const data = {
-                city: weather.name,
-                country: weather.sys.country,
-                coords: weather.coord,
-                temperature: Math.round(weather.main.temp),
-                units: units
-            }
-            props.onWeatherUpdate(data);
-        }
-    }, [weather])
 
     /**
      * When the units prop is updated, set the state
@@ -74,6 +21,13 @@ export const Today: React.FC<TodayProps> = function (
     useEffect(() => {
         setUnits(props.units);
     }, [props.units])
+
+    /**
+     * When the temperature prop is updated, set the state
+     */
+    useEffect(() => {
+        setTemperature(props.temperature);
+    }, [props.temperature])
 
     /**
      * What to do if the temperature component sends data up using the onUnitUpdate prop
@@ -90,43 +44,6 @@ export const Today: React.FC<TodayProps> = function (
     }
 
     /**
-     * Set and perform API query to get the weather for a given city
-     * and save it in the state variable
-     * @param city
-     */
-    function getWeatherForCity(city: string|{lat: number, lon: number}) {
-        let query = null;
-        if(typeof city === 'object') {
-            query = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`;
-        }
-        else {
-            query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-        }
-
-        if(query) {
-            axios.get(query)
-                // Update component state when an API response is received
-                // Catch and log error if there is one
-                .then(response => {
-                    setWeather(response.data);
-                    const roundedTemp = Math.round(response.data.main.temp);
-                    setTemperature(roundedTemp);
-                    /**
-                     * NOTES:
-                     * sending weather.main.temp up to the parent via
-                     * props.onWeatherUpdate(Math.round(weather.main.temp)) doesn't work here,
-                     * because the weather variable still contains the previous data even though it was just set...
-                     * Sending the response data directly works, e.g. response.data.weather.main.temp,
-                     * but I thought it was better to try to work out how to get it from the weather variable at the right time
-                     **/
-                }).catch(error => {
-                    console.log(error);
-                    alert('Sorry, couldn\'t find that city. Please try again');
-                })
-        }
-    }
-
-    /**
      * Put output in a variable so it can be shown conditionally
      * (in the component's return statement)
      * Ref: https://stackoverflow.com/a/24534492
@@ -134,14 +51,14 @@ export const Today: React.FC<TodayProps> = function (
      * @constructor
      */
     const Output = (): any => {
-        if(weather) {
+        if(props.weather) {
             return (
                 <section className="today row">
                     <div className="today__text">
                         <div className="today__text__temperature">
                             <div className="today__text__temperature__image-wrap">
-                                <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                                     alt={weather.weather[0].description}/>
+                                <img src={`http://openweathermap.org/img/wn/${props.weather.weather[0].icon}@2x.png`}
+                                     alt={props.weather.weather[0].description}/>
                             </div>
                             <Temperature
                                 size="large"
@@ -152,9 +69,9 @@ export const Today: React.FC<TodayProps> = function (
                                 onUnitUpdate={switchUnits}
                             />
                         </div>
-                        <Details description={weather.weather[0].description}
-                                 humidity={weather.main.humidity}
-                                 wind={weather.wind.speed}
+                        <Details description={props.weather.weather[0].description}
+                                 humidity={props.weather.main.humidity}
+                                 wind={props.weather.wind.speed}
                         />
                     </div>
                 </section>
@@ -168,7 +85,7 @@ export const Today: React.FC<TodayProps> = function (
      */
     return (
         <Fragment>
-            {weather ? <Output/> : null}
+            {props.weather ? <Output/> : null}
         </Fragment>
     )
 }

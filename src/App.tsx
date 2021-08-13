@@ -1,68 +1,55 @@
-import "./_variables.scss";
-import "./_utilities.scss";
-import "./_App.scss";
-
 import React, {useEffect, useRef, useState} from "react";
+import axios from "axios";
+import CryptoJS from "crypto-js";
 import Search from "./Search/Search";
 import Title from "./Title/Title";
 import Today from "./Weather/Today";
 import Forecast from "./Weather/Forecast";
-import axios from "axios";
-import CryptoJS from "crypto-js";
 import DateTime from "./DateTime/DateTime";
 import News from "./News/News";
+import "./_variables.scss";
+import "./_utilities.scss";
+import "./_App.scss";
+
 
 export default function App() {
-    const [searchTerm, setSearchTerm] = useState<string | null>(null);
+    const apiKey = 'f4f65838c4d2f2b467cb557338c7cc7c';
+    const [weather, setWeather] = useState<Record<string, any>|null>(null);
     const [city, setCity] = useState('');
     const [country, setCountry] = useState('');
     const [coords, setCoords] = useState<{ lat: number, lon: number } | null>(null);
     const [tempRange, setTempRange] = useState('');
-    const [tempUnits, setTempUnits] = useState('C');
+    const [temperature, setTemperature] = useState(0);
+    const [units, setUnits] = useState('C');
     const [backgroundImage, setBackgroundImage] = useState('');
 
     /**
-     * When a city is searched for, set the state so child components can pick it up
+     * When a city is searched for, get the weather from the API using the search string for the city
+     * and set the state so child components can pick it up
      * Ref: https://www.geeksforgeeks.org/how-to-pass-data-from-one-component-to-other-component-in-reactjs/
      */
-    function onSearchChange(searchedCity: string) {
-        // Set coords to null so if this is a search after loading coords from geolocation,
-        // the search term is used not the pre-existing coords
+    function handleSearch(searchedCity: string) {
+        // Set coords to null so previous ones aren't retained
         setCoords(null);
 
-        // Set the new city name
-        setSearchTerm(searchedCity);
+        // Get the weather for the searched city
+        getWeatherForCity(searchedCity);
 
         // Reset the temperature units back to the default
-        setTempUnits('C');
+        setUnits('C');
     }
 
     /**
-     * The today component sends up some selected data from the weather query so it can be used by other components
-     * Here we update the state variables used by those components when new data is received
-     * @param data
+     * When location data is received from browser geolocation,
+     * get the weather from the API using the coordinates
      */
-    function onWeatherChange(data: { city: string, country: string, coords: { lat: number, lon: number }; temperature: number, }) {
+    function handleGeolocation(coords: {lat: number, lon: number}) {
 
-        // Display the returned city name rather than exactly what was searched
-        setCity(data.city);
+        // Get the weather for the searched city
+        getWeatherForCity(coords);
 
-        // Get the returned country code from the search
-        setCountry(data.country);
-
-        // Set the coordinates of the city (used by the forecast)
-        setCoords(data.coords);
-
-        // Set the data-temp-range attribute for styling purposes
-        if (data.temperature <= 15) {
-            setTempRange('cold');
-        } else if (data.temperature > 15 && data.temperature < 25) {
-            setTempRange('fair');
-        } else if ((data.temperature >= 25) && (data.temperature < 35)) {
-            setTempRange('warm');
-        } else {
-            setTempRange('hot');
-        }
+        // Reset the temperature units back to the default
+        setUnits('C');
     }
 
     /**
@@ -70,8 +57,48 @@ export default function App() {
      * Here we update the state variables used by those components when new data is received
      * @param units
      */
-    function onUnitChange(units: React.SetStateAction<string>) {
-        setTempUnits(units);
+    function handleUnitChange(units: React.SetStateAction<string>) {
+        setUnits(units);
+    }
+
+    /**
+     * Set and perform API query to get the weather for a given city
+     * and save it in the state variable
+     * @param city
+     */
+    function getWeatherForCity(city: string|{lat: number, lon: number}) {
+        let query = null;
+        if(typeof city === 'object') {
+            query = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`;
+        }
+        else {
+            query = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        }
+
+        if(query) {
+            axios.get(query)
+                // Update component state when an API response is received
+                // Catch and log error if there is one
+                .then(response => {
+                    // Full weather object
+                    setWeather(response.data);
+
+                    // Rounded temperature
+                    const roundedTemp = Math.round(response.data.main.temp);
+                    setTemperature(roundedTemp);
+
+                    // Use the returned city name, not the searched phrase
+                    setCity(response.data.name);
+
+                    // Only set the coords if they aren't already set (i.e. by geolocation)
+                    if(!coords) {
+                        setCoords(response.data.coord);
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    alert('Sorry, couldn\'t find that city. Please try again');
+                })
+        }
     }
 
     /**
@@ -181,11 +208,11 @@ export default function App() {
                     setBackgroundImage(imageUrl);
                 });
             }
-            // First render: Prompt for geolocation and put the coordinates into the state variable
+            // First render: Prompt for geolocation and search accordingly
             else {
                 getInitialLocation()
                     .then((position: any) => {
-                        setCoords({lat: position.coords.latitude, lon: position.coords.longitude});
+                        handleGeolocation({lat: position.coords.latitude, lon: position.coords.longitude});
                     })
                     .catch((error) => {
                         alert(`There was a problem getting your location, please search instead`);
@@ -194,8 +221,11 @@ export default function App() {
 
                 // Set ref so this doesn't run on second/subsequent renders
                 didMount.current = true;
+
+                // Note: This will then re-render because the city will be set (hence triggering this hook again)
+                // and will do the "second and subsequent render" step
             }
-        }, [city]);
+        }, [city, coords]);
     }
     useDidMountEffect();
 
@@ -204,13 +234,13 @@ export default function App() {
         <div className="wrapper" data-temp-range={tempRange} style={{backgroundImage: `url(${backgroundImage})`}}>
             <main className="app">
                 <div className="app__top">
-                    <Search onSearch={onSearchChange}/>
+                    <Search onSearch={handleSearch}/>
                 </div>
                 <div className="app__main">
                     <Title city={city}/>
                     <DateTime coords={coords}/>
-                    <Today coords={coords} city={searchTerm} units={tempUnits} onWeatherUpdate={onWeatherChange} onUnitUpdate={onUnitChange}/>
-                    <Forecast coords={coords} units={tempUnits}/>
+                    <Today weather={weather} temperature={temperature} units={units} onUnitUpdate={handleUnitChange}/>
+                    <Forecast coords={coords} units={units}/>
                 </div>
                 <div className="app__side">
                     <News country={country} city={city}/>
