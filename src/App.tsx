@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import CryptoJS from "crypto-js";
-import Search from "./Search/Search";
-import Title from "./Title/Title";
-import Today from "./Weather/Today";
-import Forecast from "./Weather/Forecast";
-import DateTime from "./DateTime/DateTime";
-import News from "./News/News";
+import Search from "./components/Search/Search";
+import Title from "./components/Title/Title";
+import Today from "./components/Weather/Today";
+import Forecast from "./components/Weather/Forecast";
+import DateTime from "./components/DateTime/DateTime";
+import News from "./components/News/News";
 import "./_variables.scss";
 import "./_utilities.scss";
 import "./_App.scss";
