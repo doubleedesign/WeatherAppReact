@@ -26,18 +26,42 @@ export const Today: React.FC<TodayProps> = function(props: { weather: any; tempe
      * When the temperature prop is updated, set the state
      */
     useEffect(() => {
-        setTemperature(props.temperature);
-    }, [props.temperature])
+        console.log(units);
+        if(units === 'F') {
+            setTemperature(convertTemperature(props.temperature, 'C', 'F'));
+        }
+        else {
+            setTemperature(props.temperature);
+        }
+    }, [props.temperature, units])
+
+
+    /**
+     * Utility function to do the conversion itself
+     * @param temp
+     * @param unitsFrom
+     * @param unitsTo
+     * @returns {number}
+     */
+    function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
+        let newTemp = temp;
+
+        if (unitsFrom === 'C' && unitsTo === 'F') {
+            newTemp = Math.round((temp * 1.8) + 32);
+        } else if (unitsFrom === 'F' && unitsTo === 'C') {
+            newTemp = Math.round((temp - 32) * 0.5556);
+        }
+
+        return newTemp;
+    }
 
     /**
      * What to do if the temperature component sends data up using the onUnitUpdate prop
      * @param unitsTo
-     * @param newTemp
      */
-    function switchUnits(unitsTo: string, newTemp: React.SetStateAction<number>) {
+    function switchUnits(unitsTo: string) {
         // Update the state in this component
         setUnits(unitsTo);
-        setTemperature(newTemp);
 
         // Send the units it returns up to the parent component
         props.onUnitUpdate(unitsTo);

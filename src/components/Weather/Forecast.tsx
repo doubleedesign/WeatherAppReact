@@ -164,9 +164,8 @@ export const Forecast: React.FC<ForecastProps> = function(props: { coords: {lat:
      * This does more in the Today component because that one uses clickable Temperatures whereas this one doesn't
      * TODO: Refactor so there's less duplication and so this component can handle clickable Temperatures properly too
      * @param unitsTo
-     * @param newTemp
      */
-    function switchUnits(unitsTo: string, newTemp: React.SetStateAction<number>) {
+    function switchUnits(unitsTo: string) {
         // Update the state in this component
         setUnits(unitsTo);
     }

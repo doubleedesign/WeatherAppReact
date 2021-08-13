@@ -8,7 +8,7 @@ export interface TemperatureProps {
 	size: string;
 	showUnits: boolean;
 	clickable: boolean;
-	onUnitUpdate: (unitsTo: string, newTemp: number) => void;
+	onUnitUpdate: (unitsTo: string) => void;
 }
 
 export const Temperature: React.FC<TemperatureProps> = function(
@@ -18,7 +18,7 @@ export const Temperature: React.FC<TemperatureProps> = function(
 		size: string;
 		showUnits: boolean;
 		clickable: boolean;
-		onUnitUpdate: (unitsTo: string, newTemp: number) => void;
+		onUnitUpdate: (unitsTo: string) => void;
 	}) {
 
 	/**
@@ -44,7 +44,7 @@ export const Temperature: React.FC<TemperatureProps> = function(
 		setUnits(unitsTo);
 
 		// Send the new unit setting up to the parent component
-		props.onUnitUpdate(unitsTo, newTemp);
+		props.onUnitUpdate(unitsTo);
 	}
 
 	/**
