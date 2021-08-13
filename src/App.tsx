@@ -161,6 +161,19 @@ export default function App() {
                     const imageUrl: any = response;
                     setBackgroundImage(imageUrl);
                 });
+
+                if(temperature <= 15) {
+                    setTempRange('cold');
+                }
+                else if(temperature > 15 && temperature < 25 ) {
+                    setTempRange('fair');
+                }
+                else if((temperature >= 25) && (temperature < 35)) {
+                    setTempRange('warm');
+                }
+                else {
+                    setTempRange('hot');
+                }
             }
             // First render: Prompt for geolocation and search accordingly
             else {
