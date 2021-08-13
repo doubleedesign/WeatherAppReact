@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState, useRef} from 'react';
+import {convertTemperature, getDayAbbrev} from "../../utils/utilities";
 import axios from "axios";
 import Temperature from "./Temperature";
 import "./_Forecast.scss";
@@ -105,64 +106,7 @@ export const Forecast: React.FC<ForecastProps> = function(props: { coords: {lat:
     }
 
     /**
-     * Utility function to convert the day number to its 3-letter abbreviation
-     * @param number
-     * @returns {string}
-     */
-    function getDayAbbrev(number: number) {
-        let day = '';
-        switch (number) {
-            case 0:
-                day = 'Sun';
-                break;
-            case 1:
-                day = 'Mon';
-                break;
-            case 2:
-                day = 'Tue';
-                break;
-            case 3:
-                day = 'Wed';
-                break;
-            case 4:
-                day = 'Thu';
-                break;
-            case 5:
-                day = 'Fri';
-                break;
-            case 6:
-                day = 'Sat';
-                break;
-            default:
-                break;
-        }
-
-        return day;
-    }
-
-    /**
-     * Utility function to convert temperatures between C and F
-     * @param temp
-     * @param unitsFrom
-     * @param unitsTo
-     * @returns {number}
-     */
-    function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
-        let newTemp = temp;
-
-        if (unitsFrom === 'C' && unitsTo === 'F') {
-            newTemp = Math.round((temp * 1.8) + 32);
-        } else if (unitsFrom === 'F' && unitsTo === 'C') {
-            newTemp = Math.round((temp - 32) * 0.5556);
-        }
-
-        return newTemp;
-    }
-
-    /**
      * What to do if the temperature component sends data up using the onUnitUpdate prop
-     * This does more in the Today component because that one uses clickable Temperatures whereas this one doesn't
-     * TODO: Refactor so there's less duplication and so this component can handle clickable Temperatures properly too
      * @param unitsTo
      */
     function switchUnits(unitsTo: string) {

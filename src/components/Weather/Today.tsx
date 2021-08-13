@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState, useRef} from "react";
+import {convertTemperature} from "../../utils/utilities";
 import Temperature from "./Temperature";
 import Details from "./Details";
 import "./_Today.scss";
@@ -26,7 +27,6 @@ export const Today: React.FC<TodayProps> = function(props: { weather: any; tempe
      * When the temperature prop is updated, set the state
      */
     useEffect(() => {
-        console.log(units);
         if(units === 'F') {
             setTemperature(convertTemperature(props.temperature, 'C', 'F'));
         }
@@ -34,26 +34,6 @@ export const Today: React.FC<TodayProps> = function(props: { weather: any; tempe
             setTemperature(props.temperature);
         }
     }, [props.temperature, units])
-
-
-    /**
-     * Utility function to do the conversion itself
-     * @param temp
-     * @param unitsFrom
-     * @param unitsTo
-     * @returns {number}
-     */
-    function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
-        let newTemp = temp;
-
-        if (unitsFrom === 'C' && unitsTo === 'F') {
-            newTemp = Math.round((temp * 1.8) + 32);
-        } else if (unitsFrom === 'F' && unitsTo === 'C') {
-            newTemp = Math.round((temp - 32) * 0.5556);
-        }
-
-        return newTemp;
-    }
 
     /**
      * What to do if the temperature component sends data up using the onUnitUpdate prop
@@ -66,6 +46,7 @@ export const Today: React.FC<TodayProps> = function(props: { weather: any; tempe
         // Send the units it returns up to the parent component
         props.onUnitUpdate(unitsTo);
     }
+
 
     /**
      * Put output in a variable so it can be shown conditionally

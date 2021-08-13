@@ -1,4 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
+import {getRandomInt, getInitialLocation} from "./utils/utilities";
+
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import Search from "./components/Search/Search";
@@ -142,54 +144,6 @@ export default function App() {
             }).catch(error => {
                 console.log(error);
             })
-    }
-
-    /**
-     * Utility function to get a random integer in a range
-     * @param min
-     * @param max
-     * @returns {number}
-     */
-    function getRandomInt(min: number, max: number) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    /**
-     * Function to prompt for geolocation to load initial data
-     * Ref: https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API/Using_the_Permissions_API
-     * Ref: https://stackoverflow.com/a/45422800
-     * Ref: https://stackoverflow.com/a/57829970
-     */
-    async function getInitialLocation() {
-        const options = {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-        };
-
-        return new Promise((resolve, reject) => {
-            navigator.permissions
-                .query({
-                    name: "geolocation"
-                })
-                .then(function (result) {
-                    if (result.state === "granted" || result.state === "prompt") {
-                        navigator.geolocation.getCurrentPosition(
-                            (position) => {
-                                resolve(position);
-                            },
-                            (error) => {
-                                reject(error);
-                            },
-                            options
-                        );
-                    } else if (result.state === "denied") {
-                        return false;
-                    }
-                });
-        });
     }
 
     /**

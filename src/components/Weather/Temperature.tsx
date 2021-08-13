@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from "react";
-
+import {convertTemperature} from "../../utils/utilities";
 import "./_Temperature.scss";
 
 export interface TemperatureProps {
@@ -45,25 +45,6 @@ export const Temperature: React.FC<TemperatureProps> = function(
 
 		// Send the new unit setting up to the parent component
 		props.onUnitUpdate(unitsTo);
-	}
-
-	/**
-	 * Utility function to do the conversion itself
-	 * @param temp
-	 * @param unitsFrom
-	 * @param unitsTo
-	 * @returns {number}
-	 */
-	function convertTemperature(temp: number, unitsFrom: string, unitsTo: string) {
-		let newTemp = temp;
-
-		if (unitsFrom === 'C' && unitsTo === 'F') {
-			newTemp = Math.round((temp * 1.8) + 32);
-		} else if (unitsFrom === 'F' && unitsTo === 'C') {
-			newTemp = Math.round((temp - 32) * 0.5556);
-		}
-
-		return newTemp;
 	}
 
 	/**
