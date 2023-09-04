@@ -135,7 +135,7 @@ export default function App() {
                     const imageHash = CryptoJS.MD5(imageFile).toString();
                     imageUrl = `https://upload.wikimedia.org/wikipedia/commons/${imageHash.charAt(0)}/${imageHash.charAt(0)}${imageHash.charAt(1)}/${imageFile}`;
                 } else {
-                    console.log(`No image found for ${city}`);
+                    //console.log(`No image found for ${city}`);
                 }
 
                 // Return imageUrl - URL if one was found, empty if nothing found for this city
